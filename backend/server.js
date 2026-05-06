@@ -4,6 +4,9 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
 
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET')
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'SET' : 'NOT SET')
+
 const app = express()
 
 app.use(cors({ origin: '*', credentials: true }))
