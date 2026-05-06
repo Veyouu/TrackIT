@@ -17,20 +17,6 @@
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
 
-/* Auth Styles */
-.auth-container{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;max-width:400px;width:100%}
-.auth-title{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:4px}
-.auth-sub{color:var(--muted);font-size:13px;margin-bottom:24px}
-.auth-form{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
-.auth-form .form-group{display:flex;flex-direction:column;gap:5px}
-.auth-form label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.auth-form input{font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 11px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);outline:none;transition:border .15s;width:100%}
-.auth-form input:focus{border-color:var(--text)}
-.auth-switch{text-align:center;font-size:12px;color:var(--muted)}
-.auth-switch a{color:var(--text);cursor:pointer;text-decoration:underline}
-.auth-error{background:var(--red-bg);color:var(--red);padding:8px 12px;border-radius:var(--radius);font-size:12px;margin-bottom:12px;display:none}
-
 /* Layout */
 .app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:28px 20px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
@@ -50,7 +36,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .budget-bar{height:4px;background:var(--border);border-radius:2px;margin:8px 0}
 .budget-fill{height:4px;border-radius:2px;background:var(--text);transition:width .4s}
 .budget-nums{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
-.logout-btn{margin-top:12px;padding:8px 10px;border-radius:var(--radius);cursor:pointer;font-size:12px;color:var(--red);border:1px solid var(--red-bg);background:none;width:100%;text-align:center}
 
 /* Page header */
 .page-title{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.5px;margin-bottom:4px}
@@ -160,54 +145,7 @@ textarea{resize:vertical;min-height:60px}
 </head>
 <body>
 
-<!-- Auth Screen -->
-<div class="auth-container" id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-title">TrackIT</div>
-    <div class="auth-sub" id="auth-subtitle">Sign in to your account</div>
-
-    <div class="auth-error" id="auth-error"></div>
-
-    <!-- Login Form -->
-    <div id="login-form">
-      <div class="auth-form">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="login-email" placeholder="you@email.com">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" placeholder="••••••">
-        </div>
-      </div>
-      <button class="btn btn-primary" style="width:100%" onclick="login()">Sign In</button>
-      <div class="auth-switch" style="margin-top:16px">
-        Don't have an account? <a onclick="showRegister()">Register</a>
-      </div>
-    </div>
-
-    <!-- Register Form -->
-    <div id="register-form" style="display:none">
-      <div class="auth-form">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="reg-email" placeholder="you@email.com">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="reg-password" placeholder="••••••">
-        </div>
-      </div>
-      <button class="btn btn-primary" style="width:100%" onclick="register()">Register</button>
-      <div class="auth-switch" style="margin-top:16px">
-        Already have an account? <a onclick="showLogin()">Sign In</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Main App (hidden until authenticated) -->
-<div class="app" id="main-app" style="display:none">
+<div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">TrackIT<span>Personal Finance</span></div>
@@ -222,7 +160,7 @@ textarea{resize:vertical;min-height:60px}
       Add Expense
     </button>
     <button class="nav-item" onclick="showPage('history')" id="nav-history">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 4a.75.75 0 00-1.5 0V6a2 2 0 000 4v1.5a.75.75 0 001 0V10a2 2 0 000-4V4.5z"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 4a.75.75 0 00-1.5 0v4c0 .27.14.52.38.66l2.5 1.5a.75.75 0 00.75-1.3L8.75 8.6V5z"/></svg>
       History
     </button>
     <button class="nav-item" onclick="showPage('analytics')" id="nav-analytics">
@@ -240,8 +178,6 @@ textarea{resize:vertical;min-height:60px}
       <div class="budget-bar"><div class="budget-fill" id="sidebar-fill" style="width:0%"></div></div>
       <div class="budget-nums"><span id="sidebar-pct">0% used</span><span id="sidebar-limit">No budget set</span></div>
     </div>
-
-    <button class="logout-btn" onclick="logout()">Sign Out</button>
   </aside>
 
   <!-- Main content -->
@@ -315,9 +251,9 @@ textarea{resize:vertical;min-height:60px}
             <select id="f-category">
               <option value="needs">Needs (bills, rent, groceries)</option>
               <option value="wants">Wants (leisure, shopping)</option>
-              <option value="food">Food & Drinks</option>
+              <option value="food">Food &amp; Drinks</option>
               <option value="transport">Transport</option>
-              <option value="health">Health & Medicine</option>
+              <option value="health">Health &amp; Medicine</option>
               <option value="other">Other</option>
             </select>
           </div>
@@ -352,7 +288,7 @@ textarea{resize:vertical;min-height:60px}
             <option value="all">All categories</option>
             <option value="needs">Needs</option>
             <option value="wants">Wants</option>
-            <option value="food">Food & Drinks</option>
+            <option value="food">Food &amp; Drinks</option>
             <option value="transport">Transport</option>
             <option value="health">Health</option>
             <option value="other">Other</option>
@@ -456,15 +392,11 @@ textarea{resize:vertical;min-height:60px}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Config ───────────────────────────────────────────────────
-const API_URL = '/api'
-
-// ── State ────────────────────────────────────────────────────
-let expenses = []
-let budget = 0
-let token = localStorage.getItem('trackit_token') || ''
-let currentPeriod = 'today'
-let analyticsPeriod = 'week'
+// ── State ──────────────────────────────────────────────────────
+let expenses = JSON.parse(localStorage.getItem('trackit_expenses') || '[]');
+let budget   = parseFloat(localStorage.getItem('trackit_budget')   || '0');
+let currentPeriod    = 'today';
+let analyticsPeriod  = 'week';
 
 const CATS = {
   needs:     {label:'Needs',      color:'#2d6a4f', bg:'#d8f3dc'},
@@ -473,7 +405,7 @@ const CATS = {
   transport: {label:'Transport',  color:'#6b46c1', bg:'#ede9fe'},
   health:    {label:'Health',     color:'#c1121f', bg:'#fde8e8'},
   other:     {label:'Other',      color:'#5c5c58', bg:'#f0efe9'},
-}
+};
 
 const QUICK = [
   {name:'Meralco bill',   amt:1500, cat:'needs'},
@@ -488,560 +420,334 @@ const QUICK = [
   {name:'Coffee',         amt:95,   cat:'wants'},
   {name:'Netflix',        amt:459,  cat:'wants'},
   {name:'Load',           amt:99,   cat:'other'},
-]
+];
 
-// ── API Helper ───────────────────────────────────────────────
-async function apiRequest(endpoint, options = {}) {
-  const headers = { 'Content-Type': 'application/json' }
-  if (token) headers['Authorization'] = `Bearer ${token}`
+// ── Storage ────────────────────────────────────────────────────
+function save()          { localStorage.setItem('trackit_expenses', JSON.stringify(expenses)); }
+function saveBudgetVal() { localStorage.setItem('trackit_budget',   String(budget)); }
 
-  try {
-    const res = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      headers: { ...headers, ...options.headers }
-    })
-
-    if (res.status === 401) {
-      logout()
-      throw new Error('Session expired')
-    }
-
-    const data = await res.json()
-    console.log(`API ${endpoint}:`, data)
-    return data
-  } catch (err) {
-    console.error(`API Error ${endpoint}:`, err)
-    throw err
-  }
-}
-
-// ── Auth ─────────────────────────────────────────────────────
-function showLogin() {
-  document.getElementById('login-form').style.display = ''
-  document.getElementById('register-form').style.display = 'none'
-  document.getElementById('auth-subtitle').textContent = 'Sign in to your account'
-  hideAuthError()
-}
-
-function showRegister() {
-  document.getElementById('login-form').style.display = 'none'
-  document.getElementById('register-form').style.display = ''
-  document.getElementById('auth-subtitle').textContent = 'Create your account'
-  hideAuthError()
-}
-
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error')
-  el.textContent = msg
-  el.style.display = 'block'
-}
-
-function hideAuthError() {
-  document.getElementById('auth-error').style.display = 'none'
-}
-
-async function register() {
-  const email = document.getElementById('reg-email').value.trim()
-  const password = document.getElementById('reg-password').value
-
-  if (!email || !password) {
-    showAuthError('Please fill in all fields')
-    return
-  }
-
-  try {
-    const data = await apiRequest('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify({ email, password })
-    })
-
-    if (data.message) {
-      showLogin()
-      document.getElementById('login-email').value = email
-      showToast('Account created! Please sign in.')
-    } else {
-      showAuthError(data.message || 'Registration failed')
-    }
-  } catch (err) {
-    showAuthError('Registration failed. Please try again.')
-  }
-}
-
-async function login() {
-  const email = document.getElementById('login-email').value.trim()
-  const password = document.getElementById('login-password').value
-
-  if (!email || !password) {
-    showAuthError('Please fill in all fields')
-    return
-  }
-
-  try {
-    const data = await apiRequest('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password })
-    })
-
-    if (data.token) {
-      token = data.token
-      localStorage.setItem('trackit_token', token)
-      initApp()
-    } else {
-      showAuthError(data.message || 'Login failed')
-    }
-  } catch (err) {
-    showAuthError('Login failed. Please try again.')
-  }
-}
-
-function logout() {
-  token = ''
-  expenses = []
-  budget = 0
-  localStorage.removeItem('trackit_token')
-  document.getElementById('main-app').style.display = 'none'
-  document.getElementById('auth-screen').style.display = 'flex'
-  showLogin()
-}
-
-// ── Init App ────────────────────────────────────────────────
-async function initApp() {
-  document.getElementById('auth-screen').style.display = 'none'
-  document.getElementById('main-app').style.display = 'grid'
-
-  await Promise.all([loadExpenses(), loadBudget()])
-
-  document.getElementById('f-date').value = today()
-  renderDashboard()
-  renderQuickAdd()
-  updateSidebarBudget()
-}
-
-// ── Load Data ────────────────────────────────────────────────
-async function loadExpenses() {
-  try {
-    const data = await apiRequest('/expenses')
-    expenses = Array.isArray(data) ? data : []
-    console.log('Loaded expenses:', expenses)
-  } catch (err) {
-    expenses = []
-    showToast('Failed to load expenses')
-  }
-}
-
-async function loadBudget() {
-  try {
-    const data = await apiRequest('/budget')
-    budget = data.monthlyLimit || 0
-    console.log('Loaded budget:', budget)
-  } catch (err) {
-    budget = 0
-  }
-}
-
-// ── Helpers ─────────────────────────────────────────────────
-function today() { return new Date().toISOString().slice(0,10) }
+// ── Helpers ────────────────────────────────────────────────────
+function today() { return new Date().toISOString().slice(0,10); }
 
 function filterByPeriod(list, period) {
-  const now = new Date()
+  const now = new Date();
   return list.filter(e => {
-    // Handle date - could be string or Date object
-    let d
-    if (e.date instanceof Date) {
-      d = e.date
-    } else if (typeof e.date === 'string') {
-      d = new Date(e.date)
-    } else {
-      d = new Date(e.date)
-    }
-    const eDate = d.toISOString().slice(0,10)
-    if (period === 'today') return eDate === today()
-    if (period === 'week')  { const mon = new Date(now); mon.setDate(now.getDate()-now.getDay()+1); mon.setHours(0,0,0,0); return d >= mon }
-    if (period === 'month') return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear()
-    if (period === 'year')  return d.getFullYear()===now.getFullYear()
-    return true
-  })
+    const d = new Date(e.date + 'T00:00:00');
+    if (period === 'today') return e.date === today();
+    if (period === 'week')  { const mon = new Date(now); mon.setDate(now.getDate()-now.getDay()+1); mon.setHours(0,0,0,0); return d >= mon; }
+    if (period === 'month') return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+    if (period === 'year')  return d.getFullYear()===now.getFullYear();
+    return true;
+  });
 }
 
-function fmt(n)    { return '₱'+Number(n).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2}) }
-function fmtDate(d){ return new Date(d+'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}) }
+function fmt(n)    { return '₱'+Number(n).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d){ return new Date(d+'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}); }
 
-// ── Navigation ──────────────────────────────────────────────
+// ── Navigation ─────────────────────────────────────────────────
 function showPage(page) {
   ['dashboard','add','history','analytics','budget'].forEach(p => {
-    document.getElementById('page-'+p).style.display = p===page ? '' : 'none'
-    document.getElementById('nav-'+p).classList.toggle('active', p===page)
-  })
-  if (page==='dashboard') renderDashboard()
-  if (page==='history')   { loadExpenses().then(() => renderHistory()) }
-  if (page==='analytics') { loadExpenses().then(() => renderAnalytics()) }
-  if (page==='budget')    renderBudget()
-  if (page==='add')       { renderQuickAdd(); document.getElementById('f-date').value = today() }
+    document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
+    document.getElementById('nav-'+p).classList.toggle('active', p===page);
+  });
+  if (page==='dashboard') renderDashboard();
+  if (page==='history')   renderHistory();
+  if (page==='analytics') renderAnalytics();
+  if (page==='budget')    renderBudget();
+  if (page==='add')       { renderQuickAdd(); document.getElementById('f-date').value = today(); }
 }
 
-// ── Period ──────────────────────────────────────────────────
+// ── Period ─────────────────────────────────────────────────────
 function setPeriod(p, btn) {
-  currentPeriod = p
-  document.querySelectorAll('#page-dashboard .period-tab').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active')
-  renderDashboard()
+  currentPeriod = p;
+  document.querySelectorAll('#page-dashboard .period-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDashboard();
 }
-
 function setAnalyticsPeriod(p, btn) {
-  analyticsPeriod = p
-  document.querySelectorAll('#page-analytics .period-tab').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active')
-  renderAnalytics()
+  analyticsPeriod = p;
+  document.querySelectorAll('#page-analytics .period-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAnalytics();
 }
 
-// ── Add Expense ─────────────────────────────────────────────
-async function addExpense() {
-  const name   = document.getElementById('f-name').value.trim()
-  const amount = parseFloat(document.getElementById('f-amount').value)
-  const cat    = document.getElementById('f-category').value
-  const date   = document.getElementById('f-date').value || today()
-  const note   = document.getElementById('f-note').value.trim()
+// ── Add Expense ────────────────────────────────────────────────
+function addExpense() {
+  const name   = document.getElementById('f-name').value.trim();
+  const amount = parseFloat(document.getElementById('f-amount').value);
+  const cat    = document.getElementById('f-category').value;
+  const date   = document.getElementById('f-date').value || today();
+  const note   = document.getElementById('f-note').value.trim();
 
-  if (!name)            { showToast('Please enter an item name.'); return }
-  if (!amount || amount<=0) { showToast('Please enter a valid amount.'); return }
+  if (!name)            { showToast('Please enter an item name.');      return; }
+  if (!amount || amount<=0) { showToast('Please enter a valid amount.'); return; }
 
-  try {
-    const newExpense = await apiRequest('/expenses', {
-      method: 'POST',
-      body: JSON.stringify({ name, amount, category: cat, date, note })
-    })
-
-    expenses.unshift(newExpense)
-    clearForm()
-    showToast('Expense saved! ✓')
-    updateSidebarBudget()
-    if (document.getElementById('page-dashboard').style.display !== 'none') renderDashboard()
-    if (document.getElementById('page-history').style.display !== 'none') renderHistory()
-  } catch (err) {
-    showToast('Failed to save expense.')
-  }
+  expenses.unshift({ id: Date.now(), name, amount, cat, date, note });
+  save(); clearForm(); showToast('Expense saved! ✓'); updateSidebarBudget();
 }
 
 function clearForm() {
-  document.getElementById('f-name').value     = ''
-  document.getElementById('f-amount').value   = ''
-  document.getElementById('f-note').value     = ''
-  document.getElementById('f-date').value     = today()
-  document.getElementById('f-category').value = 'needs'
+  document.getElementById('f-name').value     = '';
+  document.getElementById('f-amount').value   = '';
+  document.getElementById('f-note').value     = '';
+  document.getElementById('f-date').value     = today();
+  document.getElementById('f-category').value = 'needs';
 }
 
 function quickAdd(name, amt, cat) {
-  document.getElementById('f-name').value     = name
-  document.getElementById('f-amount').value   = amt
-  document.getElementById('f-category').value = cat
-  document.getElementById('f-date').value     = today()
-  showPage('add')
+  document.getElementById('f-name').value     = name;
+  document.getElementById('f-amount').value   = amt;
+  document.getElementById('f-category').value = cat;
+  document.getElementById('f-date').value     = today();
+  showPage('add');
 }
 
 function renderQuickAdd() {
   document.getElementById('quick-add-buttons').innerHTML = QUICK.map(q => {
-    const c = CATS[q.cat]
+    const c = CATS[q.cat];
     return `<button class="btn" style="font-size:12px;padding:6px 12px;background:${c.bg};color:${c.color};border-color:transparent"
-      onclick="quickAdd('${q.name.replace(/'/g,"\\'")}',${q.amt},'${q.cat}')">${q.name} <span style="opacity:.6">${fmt(q.amt)}</span></button>`
-  }).join('')
+      onclick="quickAdd('${q.name.replace(/'/g,"\\'")}',${q.amt},'${q.cat}')">${q.name} <span style="opacity:.6">${fmt(q.amt)}</span></button>`;
+  }).join('');
 }
 
-// ── Delete ──────────────────────────────────────────────────
-async function deleteExpense(id) {
-  try {
-    await apiRequest(`/expenses/${id}`, { method: 'DELETE' })
-    expenses = expenses.filter(e => e._id !== id)
-    renderHistory()
-    renderDashboard()
-    updateSidebarBudget()
-    showToast('Deleted.')
-  } catch (err) {
-    showToast('Failed to delete expense.')
-  }
+// ── Delete ─────────────────────────────────────────────────────
+function deleteExpense(id) {
+  expenses = expenses.filter(e => e.id !== id);
+  save(); renderHistory(); renderDashboard(); updateSidebarBudget();
+  showToast('Deleted.');
 }
 
-// ── Dashboard ───────────────────────────────────────────────
-let catChartInst = null
+// ── Dashboard ─────────────────────────────────────────────────
+let catChartInst = null;
 function renderDashboard() {
-  console.log('Rendering dashboard, expenses:', expenses)
-  const labels = {today:'Today',week:'This week',month:'This month',year:'This year'}
-  document.getElementById('stat-period-label').textContent = labels[currentPeriod]
-  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
+  const labels = {today:'Today',week:'This week',month:'This month',year:'This year'};
+  document.getElementById('stat-period-label').textContent = labels[currentPeriod];
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
-  const filtered = filterByPeriod(expenses, currentPeriod)
-  console.log('Filtered expenses for', currentPeriod, ':', filtered)
-  
-  const total    = filtered.reduce((s,e) => s+e.amount, 0)
-  const needs    = filtered.filter(e => e.category==='needs').reduce((s,e) => s+e.amount, 0)
-  const wants    = filtered.filter(e => ['wants','food','transport'].includes(e.category)).reduce((s,e) => s+e.amount, 0)
+  const filtered = filterByPeriod(expenses, currentPeriod);
+  const total    = filtered.reduce((s,e)=>s+e.amount, 0);
+  const needs    = filtered.filter(e=>e.cat==='needs').reduce((s,e)=>s+e.amount,0);
+  const wants    = filtered.filter(e=>['wants','food','transport'].includes(e.cat)).reduce((s,e)=>s+e.amount,0);
 
-  document.getElementById('stat-total').textContent = fmt(total)
-  document.getElementById('stat-needs').textContent = fmt(needs)
-  document.getElementById('stat-wants').textContent = fmt(wants)
-  document.getElementById('stat-count').textContent = filtered.length
+  document.getElementById('stat-total').textContent = fmt(total);
+  document.getElementById('stat-needs').textContent = fmt(needs);
+  document.getElementById('stat-wants').textContent = fmt(wants);
+  document.getElementById('stat-count').textContent = filtered.length;
 
-  const np = total>0 ? Math.round(needs/total*100) : 0
-  const wp = total>0 ? Math.round(wants/total*100) : 0
-  document.getElementById('stat-needs-pct').textContent = np+'% of total'
-  document.getElementById('stat-wants-pct').textContent = wp+'% of total'
+  const np = total>0 ? Math.round(needs/total*100) : 0;
+  const wp = total>0 ? Math.round(wants/total*100) : 0;
+  document.getElementById('stat-needs-pct').textContent = np+'% of total';
+  document.getElementById('stat-wants-pct').textContent = wp+'% of total';
 
   // Donut chart
-  const catT = Object.keys(CATS).map(k=>({
-    k,
-    label:CATS[k].label,
-    color:CATS[k].color,
-    t:filtered.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0)
-  })).filter(c=>c.t>0)
-
-  console.log('Category totals:', catT)
-
-  const catCtx = document.getElementById('cat-chart').getContext('2d')
-  if (catChartInst) catChartInst.destroy()
+  const catT = Object.keys(CATS).map(k=>({k,label:CATS[k].label,color:CATS[k].color,t:filtered.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)})).filter(c=>c.t>0);
+  const catCtx = document.getElementById('cat-chart').getContext('2d');
+  if (catChartInst) catChartInst.destroy();
   if (catT.length) {
     catChartInst = new Chart(catCtx, {
       type:'doughnut',
       data:{labels:catT.map(c=>c.label),datasets:[{data:catT.map(c=>c.t),backgroundColor:catT.map(c=>c.color),borderWidth:0,hoverOffset:6}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'DM Sans',size:11},padding:10,boxWidth:10}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.raw)}`}}}}
-    })
+    });
   }
 
   // Recent list
-  const recentEl = document.getElementById('recent-list')
-  const recent   = filtered.slice(0,8)
+  const recentEl = document.getElementById('recent-list');
+  const recent   = filtered.slice(0,8);
   if (!recent.length) {
-    recentEl.innerHTML = `<div class="empty-state"><div class="empty-icon">💸</div>No expenses yet — start adding!</div>`
+    recentEl.innerHTML = `<div class="empty-state"><div class="empty-icon">💸</div>No expenses yet — start adding!</div>`;
   } else {
     recentEl.innerHTML = recent.map(e=>`
       <div class="expense-item">
-        <div><div class="cat-dot" style="width:8px;height:8px;border-radius:50%;background:${CATS[e.category].color}"></div></div>
-        <div><div class="expense-name">${e.name}</div><div class="expense-meta">${fmtDate(e.date)} · ${CATS[e.category].label}</div></div>
+        <div><div class="cat-dot" style="width:8px;height:8px;border-radius:50%;background:${CATS[e.cat].color}"></div></div>
+        <div><div class="expense-name">${e.name}</div><div class="expense-meta">${fmtDate(e.date)} · ${CATS[e.cat].label}</div></div>
         <div class="expense-amount">${fmt(e.amount)}</div>
-        <button class="expense-del" onclick="deleteExpense('${e._id}')">✕</button>
-      </div>`).join('')
+        <button class="expense-del" onclick="deleteExpense(${e.id})">✕</button>
+      </div>`).join('');
   }
 
-  renderInsights(filtered, total)
-  updateSidebarBudget()
+  renderInsights(filtered, total);
+  updateSidebarBudget();
 }
 
 function renderInsights(filtered, total) {
-  const row = document.getElementById('insight-row')
-  if (!filtered.length) { row.innerHTML=''; return }
-  const insights = []
-  const byCat = Object.keys(CATS).map(k=>({
-    k,
-    label:CATS[k].label,
-    t:filtered.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0)
-  })).sort((a,b)=>b.t-a.t)
-
-  if (byCat[0].t>0) insights.push({e:'📊',title:`${byCat[0].label} is your top category`,body:`You spent ${fmt(byCat[0].t)} — ${Math.round(byCat[0].t/total*100)}% of total.`})
-  const biggest = [...filtered].sort((a,b)=>b.amount-a.amount)[0]
-  if (biggest) insights.push({e:'💰',title:`Biggest: ${biggest.name}`,body:`${fmt(biggest.amount)} on ${fmtDate(biggest.date)}. Was it necessary?`})
-  const wPct = Math.round(filtered.filter(e=>['wants','food'].includes(e.category)).reduce((s,e) =>s+e.amount,0)/total*100)
-  if (wPct>50) insights.push({e:'⚠️',title:'Wants exceed 50% of spending',body:`${wPct}% on wants. The 50/30/20 rule recommends keeping wants at 30%.`})
-  else         insights.push({e:'✅',title:'Good spending balance',body:`${wPct}% on wants. Keep tracking to maintain healthy habits.`})
+  const row = document.getElementById('insight-row');
+  if (!filtered.length) { row.innerHTML=''; return; }
+  const insights = [];
+  const byCat = Object.keys(CATS).map(k=>({k,label:CATS[k].label,t:filtered.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)})).sort((a,b)=>b.t-a.t);
+  if (byCat[0].t>0) insights.push({e:'📊',title:`${byCat[0].label} is your top category`,body:`You spent ${fmt(byCat[0].t)} — ${Math.round(byCat[0].t/total*100)}% of total.`});
+  const biggest = [...filtered].sort((a,b)=>b.amount-a.amount)[0];
+  if (biggest) insights.push({e:'💰',title:`Biggest: ${biggest.name}`,body:`${fmt(biggest.amount)} on ${fmtDate(biggest.date)}. Was it necessary?`});
+  const wPct = Math.round(filtered.filter(e=>['wants','food'].includes(e.cat)).reduce((s,e)=>s+e.amount,0)/total*100);
+  if (wPct>50) insights.push({e:'⚠️',title:'Wants exceed 50% of spending',body:`${wPct}% on wants. The 50/30/20 rule recommends keeping wants at 30%.`});
+  else         insights.push({e:'✅',title:'Good spending balance',body:`${wPct}% on wants. Keep tracking to maintain healthy habits.`});
   row.innerHTML = insights.slice(0,3).map(i=>`
-    <div class="insight"><div class="insight-emoji">${i.e}</div><div class="insight-title">${i.title}</div><div class="insight-body">${i.body}</div></div>`).join('')
+    <div class="insight"><div class="insight-emoji">${i.e}</div><div class="insight-title">${i.title}</div><div class="insight-body">${i.body}</div></div>`).join('');
 }
 
-// ── History ─────────────────────────────────────────────────
+// ── History ────────────────────────────────────────────────────
 function renderHistory() {
-  const cat    = document.getElementById('filter-cat').value
-  const period = document.getElementById('filter-period').value
-  let list = filterByPeriod(expenses, period)
-  if (cat!=='all') list = list.filter(e=>e.category===cat)
-  list = [...list].sort((a,b)=>new Date(b.date)-new Date(a.date))
+  const cat    = document.getElementById('filter-cat').value;
+  const period = document.getElementById('filter-period').value;
+  let list = filterByPeriod(expenses, period);
+  if (cat!=='all') list = list.filter(e=>e.cat===cat);
+  list = [...list].sort((a,b)=>new Date(b.date)-new Date(a.date));
 
-  const tbody = document.getElementById('history-body')
-  const empty  = document.getElementById('history-empty')
-  if (!list.length) { tbody.innerHTML=''; empty.style.display=''; return }
-  empty.style.display = 'none'
+  const tbody = document.getElementById('history-body');
+  const empty  = document.getElementById('history-empty');
+  if (!list.length) { tbody.innerHTML=''; empty.style.display=''; return; }
+  empty.style.display = 'none';
   tbody.innerHTML = list.map(e=>{
-    const c = CATS[e.category]
+    const c = CATS[e.cat];
     return `<tr>
       <td style="color:var(--muted);white-space:nowrap">${fmtDate(e.date)}</td>
       <td style="font-weight:500">${e.name}</td>
       <td><span class="cat-tag" style="background:${c.bg};color:${c.color}">${c.label}</span></td>
       <td style="color:var(--muted);font-size:11px">${e.note||'—'}</td>
       <td style="text-align:right;font-weight:500;white-space:nowrap">${fmt(e.amount)}</td>
-      <td><button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteExpense('${e._id}')">Delete</button></td>
-    </tr>`
-  }).join('')
+      <td><button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteExpense(${e.id})">Delete</button></td>
+    </tr>`;
+  }).join('');
 }
 
-// ── Analytics ───────────────────────────────────────────────
-let trendInst=null, breakInst=null, compareInst=null
+// ── Analytics ──────────────────────────────────────────────────
+let trendInst=null, breakInst=null, compareInst=null;
 function renderAnalytics() {
-  const now = new Date()
-  let labels=[], dataMap={}
+  const now = new Date();
+  let labels=[], dataMap={};
 
   if (analyticsPeriod==='week') {
     for (let i=6;i>=0;i--) {
-      const d = new Date(now); d.setDate(now.getDate()-i)
-      const key = d.toISOString().slice(0,10)
-      labels.push(d.toLocaleDateString('en-PH',{weekday:'short'}))
-      dataMap[key] = 0
+      const d = new Date(now); d.setDate(now.getDate()-i);
+      const key = d.toISOString().slice(0,10);
+      labels.push(d.toLocaleDateString('en-PH',{weekday:'short'}));
+      dataMap[key] = 0;
     }
-    expenses.forEach(e=>{ if(dataMap[e.date]!==undefined) dataMap[e.date]+=e.amount })
+    expenses.forEach(e=>{ if(dataMap[e.date]!==undefined) dataMap[e.date]+=e.amount; });
   } else if (analyticsPeriod==='month') {
     for (let i=5;i>=0;i--) {
-      const d = new Date(now.getFullYear(), now.getMonth()-i, 1)
-      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
-      labels.push(d.toLocaleDateString('en-PH',{month:'short'}))
-      dataMap[key] = 0
+      const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      labels.push(d.toLocaleDateString('en-PH',{month:'short'}));
+      dataMap[key] = 0;
     }
-    expenses.forEach(e=>{ const k=e.date.slice(0,7); if(dataMap[k]!==undefined) dataMap[k]+=e.amount })
+    expenses.forEach(e=>{ const k=e.date.slice(0,7); if(dataMap[k]!==undefined) dataMap[k]+=e.amount; });
   } else {
-    for (let i=2;i>=0;i--) { const yr=now.getFullYear()-i; labels.push(String(yr)); dataMap[yr]=0 }
-    expenses.forEach(e=>{ const yr=e.date.slice(0,4); if(dataMap[yr]!==undefined) dataMap[yr]+=e.amount })
+    for (let i=2;i>=0;i--) { const yr=now.getFullYear()-i; labels.push(String(yr)); dataMap[yr]=0; }
+    expenses.forEach(e=>{ const yr=e.date.slice(0,4); if(dataMap[yr]!==undefined) dataMap[yr]+=e.amount; });
   }
 
-  const vals = Object.values(dataMap)
-  const tCtx = document.getElementById('trend-chart').getContext('2d')
-  if (trendInst) trendInst.destroy()
-  trendInst = new Chart(tCtx,{
-    type:'bar',
-    data:{labels,datasets:[{data:vals,backgroundColor:'#1a1a18',borderRadius:4,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}},y:{grid:{color:'#f0efe9'},ticks:{font:{family:'DM Sans',size:11},callback:v=>'₱'+v.toLocaleString()}}}}
-  })
+  const vals = Object.values(dataMap);
+  const tCtx = document.getElementById('trend-chart').getContext('2d');
+  if (trendInst) trendInst.destroy();
+  trendInst = new Chart(tCtx,{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:'#1a1a18',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}},y:{grid:{color:'#f0efe9'},ticks:{font:{family:'DM Sans',size:11},callback:v=>'₱'+v.toLocaleString()}}}}});
 
-  const filt2  = filterByPeriod(expenses, analyticsPeriod==='year'?'year':'month')
-  const catT2  = Object.keys(CATS).map(k=>({
-    k,
-    label:CATS[k].label,
-    color:CATS[k].color,
-    t:filt2.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0)
-  })).filter(c=>c.t>0)
+  const filt2  = filterByPeriod(expenses, analyticsPeriod==='year'?'year':'month');
+  const catT2  = Object.keys(CATS).map(k=>({k,label:CATS[k].label,color:CATS[k].color,t:filt2.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)})).filter(c=>c.t>0);
+  const bCtx   = document.getElementById('breakdown-chart').getContext('2d');
+  if (breakInst) breakInst.destroy();
+  if (catT2.length) breakInst = new Chart(bCtx,{type:'doughnut',data:{labels:catT2.map(c=>c.label),datasets:[{data:catT2.map(c=>c.t),backgroundColor:catT2.map(c=>c.color),borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'DM Sans',size:11},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmt(c.raw)}`}}}}});
 
-  const bCtx   = document.getElementById('breakdown-chart').getContext('2d')
-  if (breakInst) breakInst.destroy()
-  if (catT2.length) breakInst = new Chart(bCtx,{
-    type:'doughnut',
-    data:{labels:catT2.map(c=>c.label),datasets:[{data:catT2.map(c=>c.t),backgroundColor:catT2.map(c=>c.color),borderWidth:0,hoverOffset:4}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'DM Sans',size:11},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmt(c.raw)}`}}}}
-  })
+  const allF  = filterByPeriod(expenses,'year');
+  const cVals = Object.keys(CATS).map(k=>allF.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0));
+  const cCtx  = document.getElementById('compare-chart').getContext('2d');
+  if (compareInst) compareInst.destroy();
+  compareInst = new Chart(cCtx,{type:'bar',data:{labels:Object.values(CATS).map(c=>c.label),datasets:[{data:cVals,backgroundColor:Object.values(CATS).map(c=>c.color),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${fmt(c.raw)}`}}},scales:{x:{grid:{color:'#f0efe9'},ticks:{font:{family:'DM Sans',size:11},callback:v=>'₱'+v.toLocaleString()}},y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}}}}});
 
-  const allF  = filterByPeriod(expenses,'year')
-  const cVals = Object.keys(CATS).map(k=>allF.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0))
-  const cCtx  = document.getElementById('compare-chart').getContext('2d')
-  if (compareInst) compareInst.destroy()
-  compareInst = new Chart(cCtx,{
-    type:'bar',
-    data:{labels:Object.values(CATS).map(c=>c.label),datasets:[{data:cVals,backgroundColor:Object.values(CATS).map(c=>c.color),borderRadius:4,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${fmt(c.raw)}`}}},scales:{x:{grid:{color:'#f0efe9'},ticks:{font:{family:'DM Sans',size:11},callback:v=>'₱'+v.toLocaleString()}},y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}}}}
-  })
-
-  const top = [...filterByPeriod(expenses,'year')].sort((a,b)=>b.amount-a.amount).slice(0,8)
+  const top = [...filterByPeriod(expenses,'year')].sort((a,b)=>b.amount-a.amount).slice(0,8);
   document.getElementById('top-body').innerHTML = top.map(e=>`<tr>
     <td style="font-weight:500">${e.name}</td>
-    <td><span class="cat-tag" style="background:${CATS[e.category].bg};color:${CATS[e.category].color}">${CATS[e.category].label}</span></td>
+    <td><span class="cat-tag" style="background:${CATS[e.cat].bg};color:${CATS[e.cat].color}">${CATS[e.cat].label}</span></td>
     <td style="color:var(--muted)">${fmtDate(e.date)}</td>
     <td style="text-align:right;font-weight:500">${fmt(e.amount)}</td>
-  </tr>`).join('')
+  </tr>`).join('');
 }
 
-// ── Budget ──────────────────────────────────────────────────
-async function saveBudget() {
-  const val = parseFloat(document.getElementById('budget-input').value)
-  if (!val||val<=0) { showToast('Enter a valid amount.'); return }
-  try {
-    const data = await apiRequest('/budget', {
-      method: 'POST',
-      body: JSON.stringify({ monthlyLimit: val })
-    })
-    budget = data.monthlyLimit
-    renderBudget()
-    updateSidebarBudget()
-    showToast('Budget saved! ✓')
-  } catch (err) {
-    showToast('Failed to save budget.')
-  }
+// ── Budget ─────────────────────────────────────────────────────
+function saveBudget() {
+  const val = parseFloat(document.getElementById('budget-input').value);
+  if (!val||val<=0) { showToast('Enter a valid amount.'); return; }
+  budget = val; saveBudgetVal(); renderBudget(); updateSidebarBudget(); showToast('Budget saved! ✓');
 }
 
 function renderBudget() {
-  document.getElementById('budget-input').value = budget||''
-  const monthSpent = filterByPeriod(expenses,'month').reduce((s,e) =>s+e.amount,0)
-  const pct    = budget>0 ? Math.min(100,Math.round(monthSpent/budget*100)) : 0
-  const remain = Math.max(0, budget-monthSpent)
-  document.getElementById('budget-spent-label').textContent  = fmt(monthSpent)
-  document.getElementById('budget-pct-label').textContent    = pct+'% used'
-  document.getElementById('budget-remain-label').textContent = fmt(remain)+' remaining'
-  const fill = document.getElementById('budget-bar-fill')
-  fill.style.width      = pct+'%'
-  fill.style.background = pct>=90?'#c1121f':pct>=70?'#b5640a':'#1a1a18'
+  document.getElementById('budget-input').value = budget||'';
+  const monthSpent = filterByPeriod(expenses,'month').reduce((s,e)=>s+e.amount,0);
+  const pct    = budget>0 ? Math.min(100,Math.round(monthSpent/budget*100)) : 0;
+  const remain = Math.max(0, budget-monthSpent);
+  document.getElementById('budget-spent-label').textContent  = fmt(monthSpent);
+  document.getElementById('budget-pct-label').textContent    = pct+'% used';
+  document.getElementById('budget-remain-label').textContent = fmt(remain)+' remaining';
+  const fill = document.getElementById('budget-bar-fill');
+  fill.style.width      = pct+'%';
+  fill.style.background = pct>=90?'#c1121f':pct>=70?'#b5640a':'#1a1a18';
 
-  const monthAll = filterByPeriod(expenses,'month')
+  const monthAll = filterByPeriod(expenses,'month');
   document.getElementById('cat-budget-list').innerHTML = Object.entries(CATS).map(([k,c])=>{
-    const t = monthAll.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0)
-    const p = budget>0?Math.min(100,Math.round(t/budget*100)):0
+    const t = monthAll.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0);
+    const p = budget>0?Math.min(100,Math.round(t/budget*100)):0;
     return `<div>
       <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
         <span style="color:${c.color};font-weight:500">${c.label}</span><span>${fmt(t)}</span>
       </div>
       <div style="height:4px;background:var(--border);border-radius:2px">
         <div style="height:4px;border-radius:2px;background:${c.color};width:${p}%;transition:width .4s"></div>
-      </div></div>`
-  }).join('')
+      </div></div>`;
+  }).join('');
 
-  const recs=[]
-  const byCat = Object.entries(CATS).map(([k,c])=>({
-    k,
-    label:c.label,
-    t:monthAll.filter(e=>e.category===k).reduce((s,e) =>s+e.amount,0)
-  })).sort((a,b)=>b.t-a.t)
-
-  if (pct>=90) recs.push({i:'🚨',t:`You've used ${pct}% of your budget. Avoid non-essential purchases for the rest of the month.`})
-  if (byCat[0]?.t>0) recs.push({i:'📌',t:`Highest category: <strong>${byCat[0].label}</strong> at ${fmt(byCat[0].t)}. Look for ways to reduce here.`})
-  const wants = monthAll.filter(e=>e.category==='wants').reduce((s,e) =>s+e.amount,0)
-  const wPct  = monthSpent>0?Math.round(wants/monthSpent*100):0
-  if (wPct>30) recs.push({i:'💡',t:`Wants are ${wPct}% of spending this month. Try to keep it at 30% or below.`})
-  if (remain>0&&pct<70) recs.push({i:'✅',t:`You have ${fmt(remain)} left this month. You're on track — keep it up!`})
-  if (!recs.length) recs.push({i:'📝',t:'Set a budget and log expenses to get personalized recommendations.'})
+  const recs=[];
+  const byCat = Object.entries(CATS).map(([k,c])=>({k,label:c.label,t:monthAll.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)})).sort((a,b)=>b.t-a.t);
+  if (pct>=90) recs.push({i:'🚨',t:`You've used ${pct}% of your budget. Avoid non-essential purchases for the rest of the month.`});
+  if (byCat[0]?.t>0) recs.push({i:'📌',t:`Highest category: <strong>${byCat[0].label}</strong> at ${fmt(byCat[0].t)}. Look for ways to reduce here.`});
+  const wants = monthAll.filter(e=>e.cat==='wants').reduce((s,e)=>s+e.amount,0);
+  const wPct  = monthSpent>0?Math.round(wants/monthSpent*100):0;
+  if (wPct>30) recs.push({i:'💡',t:`Wants are ${wPct}% of spending this month. Try to keep it at 30% or below.`});
+  if (remain>0&&pct<70) recs.push({i:'✅',t:`You have ${fmt(remain)} left this month. You're on track — keep it up!`});
+  if (!recs.length) recs.push({i:'📝',t:'Set a budget and log expenses to get personalized recommendations.'});
   document.getElementById('recommendations').innerHTML = recs.map(r=>`
     <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface2);border-radius:var(--radius)">
       <span style="font-size:18px">${r.i}</span><span style="font-size:13px;line-height:1.6">${r.t}</span>
-    </div>`).join('')
+    </div>`).join('');
 }
 
 function updateSidebarBudget() {
-  const spent = filterByPeriod(expenses,'month').reduce((s,e) =>s+e.amount,0)
-  const pct   = budget>0?Math.min(100,Math.round(spent/budget*100)):0
-  document.getElementById('sidebar-spent').textContent = fmt(spent)
-  document.getElementById('sidebar-fill').style.width  = pct+'%'
-  document.getElementById('sidebar-pct').textContent   = pct+'% used'
-  document.getElementById('sidebar-limit').textContent = budget>0?fmt(budget)+' limit':'No budget set'
+  const spent = filterByPeriod(expenses,'month').reduce((s,e)=>s+e.amount,0);
+  const pct   = budget>0?Math.min(100,Math.round(spent/budget*100)):0;
+  document.getElementById('sidebar-spent').textContent = fmt(spent);
+  document.getElementById('sidebar-fill').style.width  = pct+'%';
+  document.getElementById('sidebar-pct').textContent   = pct+'% used';
+  document.getElementById('sidebar-limit').textContent = budget>0?fmt(budget)+' limit':'No budget set';
 }
 
-// ── Export CSV ───────────────────────────────────────────────
+// ── Export CSV ─────────────────────────────────────────────────
 function exportCSV() {
-  const cat    = document.getElementById('filter-cat').value
-  const period = document.getElementById('filter-period').value
-  let list = filterByPeriod(expenses, period)
-  if (cat!=='all') list = list.filter(e=>e.category===cat)
-  const rows = [['Date','Item','Category','Amount','Note'],...list.map(e=>[e.date,e.name,CATS[e.category].label,e.amount,e.note||''])]
-  const csv  = rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n')
-  const a    = document.createElement('a')
-  a.href     = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv)
-  a.download = 'trackit_expenses.csv'
-  a.click()
-  showToast('CSV exported!')
+  const cat    = document.getElementById('filter-cat').value;
+  const period = document.getElementById('filter-period').value;
+  let list = filterByPeriod(expenses, period);
+  if (cat!=='all') list = list.filter(e=>e.cat===cat);
+  const rows = [['Date','Item','Category','Amount','Note'],...list.map(e=>[e.date,e.name,CATS[e.cat].label,e.amount,e.note||''])];
+  const csv  = rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a    = document.createElement('a');
+  a.href     = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = 'trackit_expenses.csv';
+  a.click();
+  showToast('CSV exported!');
 }
 
-// ── Toast ───────────────────────────────────────────────────
-let toastTimer
+// ── Toast ──────────────────────────────────────────────────────
+let toastTimer;
 function showToast(msg) {
-  const t = document.getElementById('toast')
-  t.textContent = msg; t.classList.add('show')
-  clearTimeout(toastTimer)
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 2500)
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2500);
 }
 
-// ── Init ────────────────────────────────────────────────────
-if (token) {
-  initApp()
-} else {
-  document.getElementById('auth-screen').style.display = 'flex'
-}
+// ── Init ───────────────────────────────────────────────────────
+document.getElementById('f-date').value = today();
+renderDashboard();
+renderQuickAdd();
+updateSidebarBudget();
 </script>
 </body>
 </html>
