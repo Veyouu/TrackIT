@@ -30,6 +30,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    console.log('Login attempt:', req.body.email)
     const { email, password } = req.body
 
     if (!email || !password) {
@@ -37,7 +38,16 @@ router.post('/login', async (req, res) => {
     }
 
     const user = await User.findOne({ email }).select('+password')
-    if (!user || !await user.comparePassword(password)) {
+    console.log('User found:', user ? 'Yes' : 'No')
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
+
+    const isMatch = await user.comparePassword(password)
+    console.log('Password match:', isMatch)
+    
+    if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' })
     }
 
@@ -47,10 +57,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     )
 
+    console.log('Login successful for:', email)
     res.json({ token })
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ message: 'Server error' })
+    console.error('Login error:', err.message, err.stack)
+    res.status(500).json({ message: 'Server error', error: err.message })
   }
 })
 
