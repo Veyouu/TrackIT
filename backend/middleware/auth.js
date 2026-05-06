@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     }
 
     const verified = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = verified
+    req.user = verified   // contains { userId: '...' } as signed in auth.js
     next()
   } catch (err) {
     res.status(401).json({ message: 'Token verification failed, access denied' })
