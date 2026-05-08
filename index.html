@@ -17,7 +17,26 @@
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
 
-/* Layout */
+/* ── Auth Screen ── */
+#auth-screen{display:flex;min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:40px;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.auth-logo{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.5px;margin-bottom:4px}
+.auth-logo span{color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:300;display:block;margin-top:-2px;margin-bottom:28px}
+.auth-tabs{display:flex;gap:0;background:var(--surface2);padding:3px;border-radius:var(--radius);margin-bottom:24px}
+.auth-tab{flex:1;padding:7px;border-radius:4px;font-size:13px;cursor:pointer;border:none;background:none;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.auth-tab.active{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.auth-form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.auth-label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.auth-input{font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);outline:none;transition:border .15s;width:100%}
+.auth-input:focus{border-color:var(--text)}
+.auth-btn{width:100%;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:11px;border-radius:var(--radius);cursor:pointer;border:none;background:var(--text);color:#fff;margin-top:6px;transition:opacity .15s}
+.auth-btn:hover{opacity:.85}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-error{background:var(--red-bg);color:var(--red);font-size:12px;padding:9px 12px;border-radius:var(--radius);margin-bottom:12px;display:none}
+.auth-success{background:var(--green-bg);color:var(--green);font-size:12px;padding:9px 12px;border-radius:var(--radius);margin-bottom:12px;display:none}
+
+/* ── App Layout ── */
+#app-screen{display:none}
 .app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:28px 20px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
 .main{padding:32px 36px;overflow-y:auto}
@@ -31,11 +50,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .nav-icon{width:16px;height:16px;opacity:.7;flex-shrink:0}
 .nav-item.active .nav-icon{opacity:1}
 .sidebar-section{font-size:10px;font-weight:500;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:16px 0 6px 10px}
-.budget-widget{margin-top:auto;padding:14px;background:var(--surface2);border-radius:var(--radius-lg);border:1px solid var(--border)}
+.budget-widget{padding:14px;background:var(--surface2);border-radius:var(--radius-lg);border:1px solid var(--border)}
 .budget-label{font-size:11px;color:var(--muted);margin-bottom:4px}
 .budget-bar{height:4px;background:var(--border);border-radius:2px;margin:8px 0}
 .budget-fill{height:4px;border-radius:2px;background:var(--text);transition:width .4s}
 .budget-nums{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.user-bar{display:flex;align-items:center;gap:8px;padding:10px;background:var(--surface2);border-radius:var(--radius);font-size:12px}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.user-email{color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{font-size:11px;padding:3px 8px;border-radius:3px;cursor:pointer;border:1px solid var(--border);background:none;color:var(--muted);transition:all .15s}
+.logout-btn:hover{background:var(--red-bg);color:var(--red);border-color:transparent}
 
 /* Page header */
 .page-title{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.5px;margin-bottom:4px}
@@ -113,6 +138,10 @@ textarea{resize:vertical;min-height:60px}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--radius-lg);font-size:13px;z-index:999;transform:translateY(20px);opacity:0;transition:all .25s;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
 
+/* Loading spinner */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 /* Insights */
 .insight-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
 .insight{padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
@@ -129,12 +158,17 @@ textarea{resize:vertical;min-height:60px}
 .scroll-list::-webkit-scrollbar{width:4px}
 .scroll-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
+/* Loading overlay */
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:12px}
+.loading-overlay .logo-lg{font-family:'DM Serif Display',serif;font-size:36px;letter-spacing:-1px}
+.loading-overlay p{color:var(--muted);font-size:13px}
+
 /* Mobile */
 @media(max-width:700px){
   .app{grid-template-columns:1fr}
   .sidebar{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:12px 16px;gap:4px}
   .logo{width:100%;margin-bottom:8px}
-  .sidebar-section,.budget-widget{display:none}
+  .sidebar-section,.budget-widget,.sidebar-bottom{display:none}
   .main{padding:16px}
   .stats-row{grid-template-columns:1fr 1fr}
   .two-col{grid-template-columns:1fr}
@@ -145,6 +179,57 @@ textarea{resize:vertical;min-height:60px}
 </head>
 <body>
 
+<!-- ── Loading Overlay ── -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="logo-lg">TrackIT</div>
+  <p>Loading your finances…</p>
+</div>
+
+<!-- ── Auth Screen ── -->
+<div id="auth-screen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">TrackIT<span>Personal Finance Tracker</span></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Sign in</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">Create account</button>
+    </div>
+    <div id="auth-error" class="auth-error"></div>
+    <div id="auth-success" class="auth-success"></div>
+
+    <!-- Login -->
+    <div id="tab-login">
+      <div class="auth-form-group">
+        <label class="auth-label">Email</label>
+        <input class="auth-input" type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">Password</label>
+        <input class="auth-input" type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="auth-btn" id="login-btn" onclick="doLogin()">Sign in</button>
+    </div>
+
+    <!-- Register -->
+    <div id="tab-register" style="display:none">
+      <div class="auth-form-group">
+        <label class="auth-label">Email</label>
+        <input class="auth-input" type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">Password</label>
+        <input class="auth-input" type="password" id="reg-password" placeholder="Min. 6 characters" autocomplete="new-password">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">Confirm password</label>
+        <input class="auth-input" type="password" id="reg-confirm" placeholder="Re-enter password" autocomplete="new-password">
+      </div>
+      <button class="auth-btn" id="reg-btn" onclick="doRegister()">Create account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── App Screen ── -->
+<div id="app-screen">
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -172,11 +257,18 @@ textarea{resize:vertical;min-height:60px}
       Budget
     </button>
 
-    <div class="budget-widget" id="sidebar-budget">
-      <div class="budget-label">This month's budget</div>
-      <div style="font-size:15px;font-weight:500" id="sidebar-spent">₱0</div>
-      <div class="budget-bar"><div class="budget-fill" id="sidebar-fill" style="width:0%"></div></div>
-      <div class="budget-nums"><span id="sidebar-pct">0% used</span><span id="sidebar-limit">No budget set</span></div>
+    <div class="sidebar-bottom">
+      <div class="budget-widget" id="sidebar-budget">
+        <div class="budget-label">This month's budget</div>
+        <div style="font-size:15px;font-weight:500" id="sidebar-spent">₱0</div>
+        <div class="budget-bar"><div class="budget-fill" id="sidebar-fill" style="width:0%"></div></div>
+        <div class="budget-nums"><span id="sidebar-pct">0% used</span><span id="sidebar-limit">No budget set</span></div>
+      </div>
+      <div class="user-bar">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-email" id="user-email-display">—</div>
+        <button class="logout-btn" onclick="doLogout()">Out</button>
+      </div>
     </div>
   </aside>
 
@@ -268,7 +360,7 @@ textarea{resize:vertical;min-height:60px}
         </div>
         <div class="form-actions">
           <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
-          <button class="btn btn-primary" onclick="addExpense()">Save expense</button>
+          <button class="btn btn-primary" id="save-btn" onclick="addExpense()">Save expense</button>
         </div>
       </div>
       <div class="card" style="max-width:560px;margin-top:16px">
@@ -361,7 +453,7 @@ textarea{resize:vertical;min-height:60px}
               <label>Budget (₱)</label>
               <input type="number" id="budget-input" placeholder="e.g. 5000" min="0">
             </div>
-            <button class="btn btn-primary" onclick="saveBudget()">Save</button>
+            <button class="btn btn-primary" id="budget-save-btn" onclick="saveBudget()">Save</button>
           </div>
           <div style="margin-top:20px">
             <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px">
@@ -388,13 +480,21 @@ textarea{resize:vertical;min-height:60px}
 
   </main>
 </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+// ── Config ─────────────────────────────────────────────────────
+// Auto-detects: in production the backend serves the frontend from the same origin.
+// In local dev you can override: const API = 'http://localhost:5001';
+const API = '';   // same-origin (Render deployment)
+
 // ── State ──────────────────────────────────────────────────────
-let expenses = JSON.parse(localStorage.getItem('trackit_expenses') || '[]');
-let budget   = parseFloat(localStorage.getItem('trackit_budget')   || '0');
+let expenses = [];
+let budget   = 0;
+let token    = localStorage.getItem('trackit_token') || '';
+let userEmail = localStorage.getItem('trackit_email') || '';
 let currentPeriod    = 'today';
 let analyticsPeriod  = 'week';
 
@@ -422,9 +522,131 @@ const QUICK = [
   {name:'Load',           amt:99,   cat:'other'},
 ];
 
-// ── Storage ────────────────────────────────────────────────────
-function save()          { localStorage.setItem('trackit_expenses', JSON.stringify(expenses)); }
-function saveBudgetVal() { localStorage.setItem('trackit_budget',   String(budget)); }
+// ── API helpers ────────────────────────────────────────────────
+async function apiFetch(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + path, { ...opts, headers: { ...headers, ...(opts.headers || {}) } });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || 'Request failed');
+  return data;
+}
+
+// ── Auth ───────────────────────────────────────────────────────
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').style.display    = tab === 'login'    ? '' : 'none';
+  document.getElementById('tab-register').style.display = tab === 'register' ? '' : 'none';
+  document.querySelectorAll('.auth-tab').forEach((b, i) => b.classList.toggle('active', (i === 0) === (tab === 'login')));
+  clearAuthMessages();
+}
+
+function showAuthError(msg)   { const el = document.getElementById('auth-error');   el.textContent = msg; el.style.display = ''; document.getElementById('auth-success').style.display = 'none'; }
+function showAuthSuccess(msg) { const el = document.getElementById('auth-success'); el.textContent = msg; el.style.display = ''; document.getElementById('auth-error').style.display = 'none'; }
+function clearAuthMessages()  { document.getElementById('auth-error').style.display = 'none'; document.getElementById('auth-success').style.display = 'none'; }
+
+async function doLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showAuthError('Please fill in both fields.'); return; }
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Signing in…';
+  try {
+    const data = await apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+    token = data.token;
+    userEmail = email;
+    localStorage.setItem('trackit_token', token);
+    localStorage.setItem('trackit_email', email);
+    await bootApp();
+  } catch (err) {
+    showAuthError(err.message || 'Login failed. Check your credentials.');
+    btn.disabled = false; btn.textContent = 'Sign in';
+  }
+}
+
+async function doRegister() {
+  const email    = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const confirm  = document.getElementById('reg-confirm').value;
+  if (!email || !password) { showAuthError('Please fill in all fields.'); return; }
+  if (password.length < 6) { showAuthError('Password must be at least 6 characters.'); return; }
+  if (password !== confirm) { showAuthError('Passwords do not match.'); return; }
+  const btn = document.getElementById('reg-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Creating account…';
+  try {
+    await apiFetch('/api/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) });
+    showAuthSuccess('Account created! Please sign in.');
+    switchAuthTab('login');
+    document.getElementById('login-email').value = email;
+  } catch (err) {
+    showAuthError(err.message || 'Registration failed.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create account';
+  }
+}
+
+function doLogout() {
+  token = ''; userEmail = '';
+  localStorage.removeItem('trackit_token');
+  localStorage.removeItem('trackit_email');
+  expenses = []; budget = 0;
+  document.getElementById('app-screen').style.display  = 'none';
+  document.getElementById('auth-screen').style.display = '';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  clearAuthMessages();
+}
+
+// ── Boot ───────────────────────────────────────────────────────
+async function bootApp() {
+  document.getElementById('auth-screen').style.display  = 'none';
+  document.getElementById('loading-overlay').style.display = '';
+  try {
+    const [expData, budData] = await Promise.all([
+      apiFetch('/api/expenses'),
+      apiFetch('/api/budget'),
+    ]);
+    // Normalize: backend uses 'cat' field from old localStorage OR 'category' from API
+    expenses = expData.map(e => ({
+      id:     e._id,
+      name:   e.name,
+      amount: e.amount,
+      cat:    e.category || e.cat || 'other',
+      date:   (e.date || '').slice(0, 10),
+      note:   e.note || '',
+    }));
+    budget = budData.monthlyLimit || 0;
+  } catch (err) {
+    // Token may be expired
+    if (err.message?.toLowerCase().includes('token') || err.message?.toLowerCase().includes('denied')) {
+      doLogout(); return;
+    }
+    showToast('Could not load data. Using offline mode.');
+    expenses = []; budget = 0;
+  }
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('app-screen').style.display = '';
+  // Set user info
+  const initials = userEmail ? userEmail[0].toUpperCase() : '?';
+  document.getElementById('user-avatar').textContent       = initials;
+  document.getElementById('user-email-display').textContent = userEmail;
+  showPage('dashboard');
+}
+
+// ── Init ───────────────────────────────────────────────────────
+(async function init() {
+  if (token) {
+    try { await bootApp(); return; } catch {}
+  }
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('auth-screen').style.display = '';
+})();
+
+// Enter key support for auth
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('tab-login').style.display !== 'none') doLogin();
+  else doRegister();
+});
 
 // ── Helpers ────────────────────────────────────────────────────
 function today() { return new Date().toISOString().slice(0,10); }
@@ -472,18 +694,40 @@ function setAnalyticsPeriod(p, btn) {
 }
 
 // ── Add Expense ────────────────────────────────────────────────
-function addExpense() {
+async function addExpense() {
   const name   = document.getElementById('f-name').value.trim();
   const amount = parseFloat(document.getElementById('f-amount').value);
   const cat    = document.getElementById('f-category').value;
   const date   = document.getElementById('f-date').value || today();
   const note   = document.getElementById('f-note').value.trim();
 
-  if (!name)            { showToast('Please enter an item name.');      return; }
-  if (!amount || amount<=0) { showToast('Please enter a valid amount.'); return; }
+  if (!name)                { showToast('Please enter an item name.');       return; }
+  if (!amount || amount<=0) { showToast('Please enter a valid amount.');      return; }
 
-  expenses.unshift({ id: Date.now(), name, amount, cat, date, note });
-  save(); clearForm(); showToast('Expense saved! ✓'); updateSidebarBudget();
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving…';
+
+  try {
+    const saved = await apiFetch('/api/expenses', {
+      method: 'POST',
+      body: JSON.stringify({ name, amount, category: cat, date, note }),
+    });
+    expenses.unshift({
+      id:     saved._id,
+      name:   saved.name,
+      amount: saved.amount,
+      cat:    saved.category || cat,
+      date:   (saved.date || date).slice(0,10),
+      note:   saved.note || note,
+    });
+    clearForm();
+    showToast('Expense saved! ✓');
+    updateSidebarBudget();
+  } catch (err) {
+    showToast('Failed to save: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save expense';
+  }
 }
 
 function clearForm() {
@@ -511,10 +755,15 @@ function renderQuickAdd() {
 }
 
 // ── Delete ─────────────────────────────────────────────────────
-function deleteExpense(id) {
-  expenses = expenses.filter(e => e.id !== id);
-  save(); renderHistory(); renderDashboard(); updateSidebarBudget();
-  showToast('Deleted.');
+async function deleteExpense(id) {
+  try {
+    await apiFetch('/api/expenses/' + id, { method: 'DELETE' });
+    expenses = expenses.filter(e => e.id !== id);
+    renderHistory(); renderDashboard(); updateSidebarBudget();
+    showToast('Deleted.');
+  } catch (err) {
+    showToast('Delete failed: ' + err.message);
+  }
 }
 
 // ── Dashboard ─────────────────────────────────────────────────
@@ -559,10 +808,10 @@ function renderDashboard() {
   } else {
     recentEl.innerHTML = recent.map(e=>`
       <div class="expense-item">
-        <div><div class="cat-dot" style="width:8px;height:8px;border-radius:50%;background:${CATS[e.cat].color}"></div></div>
-        <div><div class="expense-name">${e.name}</div><div class="expense-meta">${fmtDate(e.date)} · ${CATS[e.cat].label}</div></div>
+        <div><div class="cat-dot" style="width:8px;height:8px;border-radius:50%;background:${CATS[e.cat]?.color||'#ccc'}"></div></div>
+        <div><div class="expense-name">${e.name}</div><div class="expense-meta">${fmtDate(e.date)} · ${CATS[e.cat]?.label||e.cat}</div></div>
         <div class="expense-amount">${fmt(e.amount)}</div>
-        <button class="expense-del" onclick="deleteExpense(${e.id})">✕</button>
+        <button class="expense-del" onclick="deleteExpense('${e.id}')">✕</button>
       </div>`).join('');
   }
 
@@ -598,14 +847,14 @@ function renderHistory() {
   if (!list.length) { tbody.innerHTML=''; empty.style.display=''; return; }
   empty.style.display = 'none';
   tbody.innerHTML = list.map(e=>{
-    const c = CATS[e.cat];
+    const c = CATS[e.cat] || CATS.other;
     return `<tr>
       <td style="color:var(--muted);white-space:nowrap">${fmtDate(e.date)}</td>
       <td style="font-weight:500">${e.name}</td>
       <td><span class="cat-tag" style="background:${c.bg};color:${c.color}">${c.label}</span></td>
       <td style="color:var(--muted);font-size:11px">${e.note||'—'}</td>
       <td style="text-align:right;font-weight:500;white-space:nowrap">${fmt(e.amount)}</td>
-      <td><button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteExpense(${e.id})">Delete</button></td>
+      <td><button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteExpense('${e.id}')">Delete</button></td>
     </tr>`;
   }).join('');
 }
@@ -655,19 +904,32 @@ function renderAnalytics() {
   compareInst = new Chart(cCtx,{type:'bar',data:{labels:Object.values(CATS).map(c=>c.label),datasets:[{data:cVals,backgroundColor:Object.values(CATS).map(c=>c.color),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${fmt(c.raw)}`}}},scales:{x:{grid:{color:'#f0efe9'},ticks:{font:{family:'DM Sans',size:11},callback:v=>'₱'+v.toLocaleString()}},y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}}}}});
 
   const top = [...filterByPeriod(expenses,'year')].sort((a,b)=>b.amount-a.amount).slice(0,8);
-  document.getElementById('top-body').innerHTML = top.map(e=>`<tr>
-    <td style="font-weight:500">${e.name}</td>
-    <td><span class="cat-tag" style="background:${CATS[e.cat].bg};color:${CATS[e.cat].color}">${CATS[e.cat].label}</span></td>
-    <td style="color:var(--muted)">${fmtDate(e.date)}</td>
-    <td style="text-align:right;font-weight:500">${fmt(e.amount)}</td>
-  </tr>`).join('');
+  document.getElementById('top-body').innerHTML = top.map(e=>{
+    const c = CATS[e.cat]||CATS.other;
+    return `<tr>
+      <td style="font-weight:500">${e.name}</td>
+      <td><span class="cat-tag" style="background:${c.bg};color:${c.color}">${c.label}</span></td>
+      <td style="color:var(--muted)">${fmtDate(e.date)}</td>
+      <td style="text-align:right;font-weight:500">${fmt(e.amount)}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ── Budget ─────────────────────────────────────────────────────
-function saveBudget() {
+async function saveBudget() {
   const val = parseFloat(document.getElementById('budget-input').value);
-  if (!val||val<=0) { showToast('Enter a valid amount.'); return; }
-  budget = val; saveBudgetVal(); renderBudget(); updateSidebarBudget(); showToast('Budget saved! ✓');
+  if (!val || val < 0) { showToast('Enter a valid amount.'); return; }
+  const btn = document.getElementById('budget-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    await apiFetch('/api/budget', { method: 'POST', body: JSON.stringify({ monthlyLimit: val }) });
+    budget = val;
+    renderBudget(); updateSidebarBudget(); showToast('Budget saved! ✓');
+  } catch (err) {
+    showToast('Failed to save budget: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save';
+  }
 }
 
 function renderBudget() {
@@ -725,7 +987,7 @@ function exportCSV() {
   const period = document.getElementById('filter-period').value;
   let list = filterByPeriod(expenses, period);
   if (cat!=='all') list = list.filter(e=>e.cat===cat);
-  const rows = [['Date','Item','Category','Amount','Note'],...list.map(e=>[e.date,e.name,CATS[e.cat].label,e.amount,e.note||''])];
+  const rows = [['Date','Item','Category','Amount','Note'],...list.map(e=>[e.date,e.name,CATS[e.cat]?.label||e.cat,e.amount,e.note||''])];
   const csv  = rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
   const a    = document.createElement('a');
   a.href     = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
@@ -742,6 +1004,9 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'), 2500);
 }
+</script>
+</body>
+</html>
 
 // ── Init ───────────────────────────────────────────────────────
 document.getElementById('f-date').value = today();
