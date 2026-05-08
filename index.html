@@ -597,15 +597,32 @@ function doLogout() {
 }
 
 // ── Boot ───────────────────────────────────────────────────────
+function showAuth() {
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('app-screen').style.display      = 'none';
+  document.getElementById('auth-screen').style.display     = '';
+}
+
+function showApp() {
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('auth-screen').style.display     = 'none';
+  document.getElementById('app-screen').style.display      = '';
+  const initials = userEmail ? userEmail[0].toUpperCase() : '?';
+  document.getElementById('user-avatar').textContent        = initials;
+  document.getElementById('user-email-display').textContent = userEmail;
+  showPage('dashboard');
+}
+
 async function bootApp() {
-  document.getElementById('auth-screen').style.display  = 'none';
+  document.getElementById('auth-screen').style.display     = 'none';
+  document.getElementById('app-screen').style.display      = 'none';
   document.getElementById('loading-overlay').style.display = '';
+
   try {
     const [expData, budData] = await Promise.all([
       apiFetch('/api/expenses'),
       apiFetch('/api/budget'),
     ]);
-    // Normalize: backend uses 'cat' field from old localStorage OR 'category' from API
     expenses = expData.map(e => ({
       id:     e._id,
       name:   e.name,
@@ -615,30 +632,37 @@ async function bootApp() {
       note:   e.note || '',
     }));
     budget = budData.monthlyLimit || 0;
+    showApp();
   } catch (err) {
-    // Token may be expired
-    if (err.message?.toLowerCase().includes('token') || err.message?.toLowerCase().includes('denied')) {
-      doLogout(); return;
+    console.error('bootApp error:', err);
+    // Token expired or invalid — clear it and show login
+    const msg = (err.message || '').toLowerCase();
+    if (msg.includes('token') || msg.includes('denied') || msg.includes('401') || msg.includes('unauthorized')) {
+      token = ''; userEmail = '';
+      localStorage.removeItem('trackit_token');
+      localStorage.removeItem('trackit_email');
+      showAuth();
+    } else {
+      // Network error or server down — still show app with empty data
+      expenses = []; budget = 0;
+      showApp();
     }
-    showToast('Could not load data. Using offline mode.');
-    expenses = []; budget = 0;
   }
-  document.getElementById('loading-overlay').style.display = 'none';
-  document.getElementById('app-screen').style.display = '';
-  // Set user info
-  const initials = userEmail ? userEmail[0].toUpperCase() : '?';
-  document.getElementById('user-avatar').textContent       = initials;
-  document.getElementById('user-email-display').textContent = userEmail;
-  showPage('dashboard');
 }
 
 // ── Init ───────────────────────────────────────────────────────
 (async function init() {
-  if (token) {
-    try { await bootApp(); return; } catch {}
+  try {
+    if (token) {
+      await bootApp();
+    } else {
+      showAuth();
+    }
+  } catch (err) {
+    // Absolute last resort — always show auth screen
+    console.error('Fatal init error:', err);
+    showAuth();
   }
-  document.getElementById('loading-overlay').style.display = 'none';
-  document.getElementById('auth-screen').style.display = '';
 })();
 
 // Enter key support for auth
