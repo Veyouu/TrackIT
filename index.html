@@ -1034,18 +1034,28 @@ function setTheme(c) { prefs.accent=c; savePref(); document.documentElement.styl
 function cs() { return prefs.currency==='USD'?'$':prefs.currency==='EUR'?'€':'₱'; }
 function fmt(n) { return cs()+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
-// ══════════════════════════════════════════════
-// API
-// ══════════════════════════════════════════════
-async function apiFetch(path, opts={}) {
-  const h = {'Content-Type':'application/json'};
-  if (token) h['Authorization'] = 'Bearer '+token;
-  const res  = await fetch(API_URL+path, {...opts, headers:h});
-  const body = await res.json().catch(()=>({}));
-  if (!res.ok) { const e=new Error(body.message||'Failed'); e.status=res.status; throw e; }
-  return body;
-}
 
+
+// ══════════════════════════════════════════════
+// API  (timeout-aware — handles Render cold starts)
+// ══════════════════════════════════════════════
+async function apiFetch(path, opts={}, ms=12000) {
+  const controller = new AbortController();
+  const tid = setTimeout(() => controller.abort(), ms);
+  try {
+    const h = {"Content-Type":"application/json"};
+    if (token) h["Authorization"] = "Bearer " + token;
+    const res  = await fetch(API_URL + path, {...opts, headers: h, signal: controller.signal});
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) { const e = new Error(body.message || "Request failed"); e.status = res.status; throw e; }
+    return body;
+  } catch(err) {
+    if (err.name === "AbortError") throw new Error("Request timed out.");
+    throw err;
+  } finally {
+    clearTimeout(tid);
+  }
+}
 // ══════════════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════════════
@@ -1104,30 +1114,107 @@ function normExp(e) { return {id:e._id,name:e.name||'',amount:Number(e.amount)||
 // ══════════════════════════════════════════════
 // SCREENS
 // ══════════════════════════════════════════════
-function showLoad()  { $('loading').style.display='flex'; $('loading').classList.remove('out'); }
-function hideLoad()  { $('loading').classList.add('out'); setTimeout(()=>$('loading').style.display='none',420); }
-function showAuth()  { hideLoad(); $('auth').classList.add('on'); $('ob').classList.remove('on'); $('app').classList.remove('on'); }
-function showOB()    { hideLoad(); $('auth').classList.remove('on'); $('ob').classList.add('on'); $('app').classList.remove('on'); startOB(); }
-function showApp()   { hideLoad(); $('auth').classList.remove('on'); $('ob').classList.remove('on'); $('app').classList.add('on'); updateSB(); nav('dashboard'); }
+function showLoad() {
+  const el = $('loading');
+  el.style.display = 'flex';
+  el.style.opacity = '1';
+  el.classList.remove('out');
+}
+function hideLoad() {
+  const el = $('loading');
+  el.classList.add('out');
+  el.style.opacity = '0';
+  setTimeout(() => { el.style.display = 'none'; }, 420);
+}
+function showAuth() {
+  hideLoad();
+  $('auth').style.display  = 'flex';
+  $('ob').style.display    = 'none';
+  $('app').style.display   = 'none';
+  $('auth').classList.add('on');
+  $('ob').classList.remove('on');
+  $('app').classList.remove('on');
+}
+function showOB() {
+  hideLoad();
+  $('auth').style.display = 'none';
+  $('ob').style.display   = 'flex';
+  $('app').style.display  = 'none';
+  $('auth').classList.remove('on');
+  $('ob').classList.add('on');
+  $('app').classList.remove('on');
+  startOB();
+}
+function showApp() {
+  hideLoad();
+  $('auth').style.display = 'none';
+  $('ob').style.display   = 'none';
+  $('app').style.display  = 'block';
+  $('auth').classList.remove('on');
+  $('ob').classList.remove('on');
+  $('app').classList.add('on');
+  updateSB();
+  nav('dashboard');
+}
 
 // ══════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════
+
 async function boot() {
   showLoad();
-  await new Promise(r=>setTimeout(r,1600));
+
+  // Global safety net: if nothing resolves in 10s, bail to auth
+  const safetyTimer = setTimeout(() => {
+    console.warn('TrackIT: boot timeout — showing auth');
+    clearSess();
+    showAuth();
+    toast('Server is waking up — please sign in again.');
+  }, 10000);
+
   try {
-    const [ed,bd] = await Promise.all([apiFetch('/api/expenses'), apiFetch('/api/budget')]);
-    expenses = (Array.isArray(ed)?ed:[]).map(normExp);
-    budget   = Number(bd.monthlyLimit)||0;
+    const [ed, bd] = await Promise.all([
+      apiFetch('/api/expenses'),
+      apiFetch('/api/budget'),
+    ]);
+    clearTimeout(safetyTimer);
+    expenses = (Array.isArray(ed) ? ed : []).map(normExp);
+    budget   = Number(bd.monthlyLimit) || 0;
     if (!localStorage.getItem('ti_onboarded')) { showOB(); return; }
     showApp();
   } catch(err) {
-    if (err.status===401||/token|denied|unauth/i.test(err.message||'')) { clearSess(); showAuth(); }
-    else { expenses=[]; budget=0; showApp(); }
+    clearTimeout(safetyTimer);
+    console.error('Boot error:', err);
+    if (err.name === 'AbortError') {
+      // Server timeout — clear token and ask user to sign in
+      clearSess();
+      showAuth();
+      toast('Server took too long — please sign in. It may be waking up. ⏳');
+    } else if (err.status === 401 || /token|denied|unauth/i.test(err.message||'')) {
+      clearSess();
+      showAuth();
+    } else {
+      // Network error but token might still be valid — enter app offline
+      expenses = []; budget = 0;
+      showApp();
+      toast('Offline mode — could not reach server.');
+    }
   }
 }
-(async()=>{ try { if(token) await boot(); else showAuth(); } catch(e){ showAuth(); } })();
+
+// Init — always guaranteed to resolve to a screen
+(async () => {
+  try {
+    if (token) {
+      await boot();
+    } else {
+      showAuth();
+    }
+  } catch (e) {
+    console.error('Fatal init error:', e);
+    showAuth();
+  }
+})();
 
 document.addEventListener('keydown', e => {
   if (e.altKey && e.key.toLowerCase()==='a') { e.preventDefault(); openQA(); }
