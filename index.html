@@ -987,6 +987,12 @@ let apPeriod  = 'week';
 let sugPw     = '';
 let scanImgB64 = '';
 
+// ── Core helpers defined FIRST — everything below depends on these ──
+const $ = id => document.getElementById(id);
+const todayStr = () => new Date().toISOString().slice(0,10);
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const ci  = k  => CATS[k] || CATS.other;
+
 const CATS = {
   needs:     { label:'Needs',     icon:'🏠', color:'#1d4ed8', bg:'var(--blue-bg)',   border:'var(--blue-mid)'   },
   wants:     { label:'Wants',     icon:'🛍️', color:'#7c3aed', bg:'var(--purple-bg)', border:'var(--purple-mid)' },
@@ -1013,10 +1019,14 @@ const THEMES = [
 // ══════════════════════════════════════════════
 function applyDark() {
   document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  const ico = $('dk-ico'), lbl = $('dk-lbl'), knob = $('dark-knob'), pill = $('dark-toggle-pill');
-  if (ico) ico.textContent = isDark ? '☀️' : '🌙';
-  if (lbl) lbl.textContent = isDark ? 'Light' : 'Dark';
-  if (knob) knob.style.left = isDark ? '18px' : '2px';
+  // DOM elements may not exist yet during early init — all guarded with ?
+  const ico  = document.getElementById('dk-ico');
+  const lbl  = document.getElementById('dk-lbl');
+  const knob = document.getElementById('dark-knob');
+  const pill = document.getElementById('dark-toggle-pill');
+  if (ico)  ico.textContent      = isDark ? '☀️' : '🌙';
+  if (lbl)  lbl.textContent      = isDark ? 'Light' : 'Dark';
+  if (knob) knob.style.left      = isDark ? '18px' : '2px';
   if (pill) pill.classList.toggle('on', isDark);
 }
 function toggleDark() { isDark = !isDark; localStorage.setItem('ti_dark', isDark ? '1' : '0'); applyDark(); }
@@ -1057,12 +1067,8 @@ async function apiFetch(path, opts={}, ms=12000) {
   }
 }
 // ══════════════════════════════════════════════
-// HELPERS
+// HELPERS  ($ / todayStr / esc / ci defined above near state vars)
 // ══════════════════════════════════════════════
-const $ = id => document.getElementById(id);
-const todayStr = () => new Date().toISOString().slice(0,10);
-const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const ci  = k  => CATS[k] || CATS.other;
 
 function fmt_date(d) {
   if (!d) return '—';
@@ -1205,7 +1211,7 @@ async function loadDataInBackground() {
 
 document.addEventListener('keydown', e => {
   if (e.altKey && e.key.toLowerCase()==='a') { e.preventDefault(); openQA(); }
-  if ($('auth').classList.contains('on') && e.key==='Enter') {
+  if ($('auth').style.display !== 'none' && e.key==='Enter') {
     $('form-up').style.display!=='none' ? doReg() : doLogin();
   }
 });
@@ -1469,7 +1475,7 @@ async function qaSave(){
 // ══════════════════════════════════════════════
 // RECEIPT SCANNER
 // ══════════════════════════════════════════════
-function openScanner(){ $('scan-backdrop').classList.add('on'); resetScanner(); }
+function openScanner(){ $('scan-backdrop').classList.add('on'); resetScanner(); initScanDrop(); }
 function closeScanner(){ $('scan-backdrop').classList.remove('on'); }
 function resetScanner(){
   $('scan-drop-state').style.display=''; $('scan-progress-state').style.display='none';
@@ -1566,11 +1572,17 @@ async function saveManualScanExp() {
 }
 
 // Drag & drop
-const dd=$('scan-drop');
-if(dd){
-  dd.addEventListener('dragover',e=>{e.preventDefault();dd.classList.add('dragging');});
-  dd.addEventListener('dragleave',()=>dd.classList.remove('dragging'));
-  dd.addEventListener('drop',e=>{e.preventDefault();dd.classList.remove('dragging');const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);$('scan-file').files=dt.files;handleScanFile({target:{files:[f]}});}});
+function initScanDrop() {
+  const dd = $('scan-drop');
+  if (!dd || dd._ddInit) return;
+  dd._ddInit = true;
+  dd.addEventListener('dragover', e => { e.preventDefault(); dd.classList.add('dragging'); });
+  dd.addEventListener('dragleave', () => dd.classList.remove('dragging'));
+  dd.addEventListener('drop', e => {
+    e.preventDefault(); dd.classList.remove('dragging');
+    const f = e.dataTransfer.files[0];
+    if (f) { const dt = new DataTransfer(); dt.items.add(f); $('scan-file').files = dt.files; handleScanFile({target:{files:[f]}}); }
+  });
 }
 
 // ══════════════════════════════════════════════
