@@ -1111,110 +1111,97 @@ function animCount(el, target, pre='₱', dec=2) {
 }
 function normExp(e) { return {id:e._id,name:e.name||'',amount:Number(e.amount)||0,cat:e.category||e.cat||'other',date:(e.date||'').slice(0,10),note:e.note||'',wallet:e.wallet||'',receipt:e.receipt||''}; }
 
+
 // ══════════════════════════════════════════════
-// SCREENS
+// SCREENS — always set style.display directly, no class dependency
 // ══════════════════════════════════════════════
-function showLoad() {
-  const el = $('loading');
-  el.style.display = 'flex';
-  el.style.opacity = '1';
-  el.classList.remove('out');
-}
 function hideLoad() {
-  const el = $('loading');
-  el.classList.add('out');
-  el.style.opacity = '0';
-  setTimeout(() => { el.style.display = 'none'; }, 420);
+  const el = document.getElementById('loading');
+  if (!el) return;
+  el.style.transition = 'opacity .3s';
+  el.style.opacity    = '0';
+  setTimeout(() => { el.style.display = 'none'; }, 340);
 }
 function showAuth() {
   hideLoad();
-  $('auth').style.display  = 'flex';
-  $('ob').style.display    = 'none';
-  $('app').style.display   = 'none';
-  $('auth').classList.add('on');
-  $('ob').classList.remove('on');
-  $('app').classList.remove('on');
+  document.getElementById('auth').style.display = 'flex';
+  document.getElementById('ob').style.display   = 'none';
+  document.getElementById('app').style.display  = 'none';
 }
 function showOB() {
   hideLoad();
-  $('auth').style.display = 'none';
-  $('ob').style.display   = 'flex';
-  $('app').style.display  = 'none';
-  $('auth').classList.remove('on');
-  $('ob').classList.add('on');
-  $('app').classList.remove('on');
+  document.getElementById('auth').style.display = 'none';
+  document.getElementById('ob').style.display   = 'flex';
+  document.getElementById('app').style.display  = 'none';
   startOB();
 }
 function showApp() {
   hideLoad();
-  $('auth').style.display = 'none';
-  $('ob').style.display   = 'none';
-  $('app').style.display  = 'block';
-  $('auth').classList.remove('on');
-  $('ob').classList.remove('on');
-  $('app').classList.add('on');
+  document.getElementById('auth').style.display = 'none';
+  document.getElementById('ob').style.display   = 'none';
+  document.getElementById('app').style.display  = 'block';
   updateSB();
   nav('dashboard');
 }
 
 // ══════════════════════════════════════════════
-// BOOT
+// BOOT — never blocks UI; shows a screen INSTANTLY
+// Strategy: if logged in, show app right away with empty
+// state, then silently load data in background.
+// This means zero wait time regardless of server speed.
 // ══════════════════════════════════════════════
-
-async function boot() {
-  showLoad();
-
-  // Global safety net: if nothing resolves in 10s, bail to auth
-  const safetyTimer = setTimeout(() => {
-    console.warn('TrackIT: boot timeout — showing auth');
-    clearSess();
-    showAuth();
-    toast('Server is waking up — please sign in again.');
-  }, 10000);
-
+async function loadDataInBackground() {
   try {
     const [ed, bd] = await Promise.all([
-      apiFetch('/api/expenses'),
-      apiFetch('/api/budget'),
+      apiFetch('/api/expenses', {}, 25000),
+      apiFetch('/api/budget',   {}, 25000),
     ]);
-    clearTimeout(safetyTimer);
     expenses = (Array.isArray(ed) ? ed : []).map(normExp);
     budget   = Number(bd.monthlyLimit) || 0;
-    if (!localStorage.getItem('ti_onboarded')) { showOB(); return; }
-    showApp();
+    // Refresh the current view with real data
+    try { renderDash(); } catch(e) {}
+    try { sidebarBudget(); } catch(e) {}
+    toast('Your data is ready! ✓');
   } catch(err) {
-    clearTimeout(safetyTimer);
-    console.error('Boot error:', err);
-    if (err.name === 'AbortError') {
-      // Server timeout — clear token and ask user to sign in
-      clearSess();
-      showAuth();
-      toast('Server took too long — please sign in. It may be waking up. ⏳');
-    } else if (err.status === 401 || /token|denied|unauth/i.test(err.message||'')) {
-      clearSess();
-      showAuth();
+    console.warn('Background load failed:', err.message);
+    if (err.status === 401 || /token|denied|unauth/i.test(err.message || '')) {
+      clearSess(); showAuth();
+      toast('Session expired — please sign in again.');
     } else {
-      // Network error but token might still be valid — enter app offline
-      expenses = []; budget = 0;
-      showApp();
-      toast('Offline mode — could not reach server.');
+      toast('Working offline — data could not be loaded.');
     }
   }
 }
 
-// Init — always guaranteed to resolve to a screen
-(async () => {
+// ── INIT: always resolves to a visible screen within ~0ms ──
+(function init() {
   try {
-    if (token) {
-      await boot();
+    if (token && email) {
+      // Show app shell immediately — real data loads in background
+      showApp();
+      // Check onboarding
+      if (!localStorage.getItem('ti_onboarded')) {
+        showOB();
+        return;
+      }
+      // Load data silently without blocking the UI
+      loadDataInBackground();
     } else {
+      // No session — go straight to auth
       showAuth();
     }
-  } catch (e) {
-    console.error('Fatal init error:', e);
-    showAuth();
+  } catch(e) {
+    console.error('Init failed:', e);
+    // Nuclear fallback — always show something
+    try { showAuth(); } catch(e2) {
+      const l = document.getElementById('loading');
+      if (l) l.style.display = 'none';
+      const a = document.getElementById('auth');
+      if (a) a.style.display = 'flex';
+    }
   }
 })();
+
 
 document.addEventListener('keydown', e => {
   if (e.altKey && e.key.toLowerCase()==='a') { e.preventDefault(); openQA(); }
