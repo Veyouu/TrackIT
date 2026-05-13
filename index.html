@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TrackIT — Personal Finance</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -505,6 +506,19 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
   .stats-row{grid-template-columns:1fr}
   .insight-row{grid-template-columns:1fr 1fr}
 }
+
+/* Lucide icon sizing within components */
+.nav-icon svg,.nav-icon img{width:14px;height:14px;stroke:currentColor;vertical-align:middle}
+.insight-icon svg{width:18px;height:18px;stroke:currentColor;opacity:.7}
+.stat-card-icon svg{width:14px;height:14px;stroke:currentColor}
+.auth-feat-icon svg{vertical-align:middle}
+.scan-icon svg{display:block;margin:0 auto;opacity:.4}
+.txn-ico svg,.wallet-ico svg,.goal-ico svg{width:16px;height:16px;stroke:currentColor}
+.mob-nav-btn svg{display:block;margin:0 auto}
+.fab svg{display:block}
+.cat-badge svg{width:10px;height:10px;vertical-align:middle;margin-right:2px}
+.verified svg{vertical-align:middle}
+
 </style>
 </head>
 <body>
@@ -526,10 +540,10 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
         <div class="auth-desc">A calm, modern workspace to track spending, set goals, and understand your money — without the noise.</div>
       </div>
       <div class="auth-feats">
-        <div class="auth-feat"><div class="auth-feat-icon">📸</div><div class="auth-feat-label">Receipt Scanner</div><div class="auth-feat-sub">Snap & log in seconds</div></div>
-        <div class="auth-feat"><div class="auth-feat-icon">🎯</div><div class="auth-feat-label">Savings Goals</div><div class="auth-feat-sub">Build what matters</div></div>
-        <div class="auth-feat"><div class="auth-feat-icon">💡</div><div class="auth-feat-label">Smart Insights</div><div class="auth-feat-sub">Understand your habits</div></div>
-        <div class="auth-feat"><div class="auth-feat-icon">👛</div><div class="auth-feat-label">Multi-Wallet</div><div class="auth-feat-sub">Cash, GCash, bank</div></div>
+        <div class="auth-feat"><div class="auth-feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="auth-feat-label">Receipt Scanner</div><div class="auth-feat-sub">Snap & log in seconds</div></div>
+        <div class="auth-feat"><div class="auth-feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="auth-feat-label">Savings Goals</div><div class="auth-feat-sub">Build what matters</div></div>
+        <div class="auth-feat"><div class="auth-feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div><div class="auth-feat-label">Smart Insights</div><div class="auth-feat-sub">Understand your habits</div></div>
+        <div class="auth-feat"><div class="auth-feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></div><div class="auth-feat-label">Multi-Wallet</div><div class="auth-feat-sub">Cash, GCash, bank</div></div>
       </div>
     </div>
     <div class="auth-form-side">
@@ -583,17 +597,17 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div class="sb-top"><div class="sb-logo">TrackIT<em>.</em></div></div>
       <div class="sb-nav">
         <div class="nav-sect">Overview</div>
-        <button class="nav-btn on" id="nav-dashboard" onclick="nav('dashboard')"><span class="nav-icon">⊞</span>Dashboard</button>
-        <button class="nav-btn" id="nav-wallets" onclick="nav('wallets')"><span class="nav-icon">👛</span>Wallets</button>
+        <button class="nav-btn on" id="nav-dashboard" onclick="nav('dashboard')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="13" y="3" width="8" height="7"/><rect x="13" y="13" width="8" height="8"/><rect x="3" y="13" width="7" height="8"/></svg></span>Dashboard</button>
+        <button class="nav-btn" id="nav-wallets" onclick="nav('wallets')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></span>Wallets</button>
         <div class="nav-sect">Tracking</div>
-        <button class="nav-btn" id="nav-add" onclick="nav('add')"><span class="nav-icon">＋</span>Add Expense</button>
-        <button class="nav-btn" id="nav-history" onclick="nav('history')"><span class="nav-icon">≡</span>History</button>
-        <button class="nav-btn" id="nav-analytics" onclick="nav('analytics')"><span class="nav-icon">↗</span>Analytics</button>
+        <button class="nav-btn" id="nav-add" onclick="nav('add')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>Add Expense</button>
+        <button class="nav-btn" id="nav-history" onclick="nav('history')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/><path d="M3.05 11a9 9 0 1 0 .5-4"/><path d="M3 3v5h5"/></svg></span>History</button>
+        <button class="nav-btn" id="nav-analytics" onclick="nav('analytics')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Analytics</button>
         <div class="nav-sect">Planning</div>
-        <button class="nav-btn" id="nav-budget" onclick="nav('budget')"><span class="nav-icon">◎</span>Budget</button>
-        <button class="nav-btn" id="nav-goals" onclick="nav('goals')"><span class="nav-icon">⚑</span>Goals</button>
+        <button class="nav-btn" id="nav-budget" onclick="nav('budget')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>Budget</button>
+        <button class="nav-btn" id="nav-goals" onclick="nav('goals')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>Goals</button>
         <div class="nav-sect">Account</div>
-        <button class="nav-btn" id="nav-profile" onclick="nav('profile')"><span class="nav-icon">○</span>Profile</button>
+        <button class="nav-btn" id="nav-profile" onclick="nav('profile')"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></span>Profile</button>
       </div>
       <div class="sb-bottom">
         <div class="sb-budget">
@@ -619,9 +633,9 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
         <div class="dash-top">
           <div class="dash-greeting"><h1 id="greeting">Good day!</h1><p id="dash-date"></p></div>
           <div class="dash-ctrl">
-            <button class="btn" onclick="loadDemo()">📊 Demo data</button>
+            <button class="btn" onclick="loadDemo()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Demo data</button>
             <div class="dark-toggle" onclick="toggleDark()"><span id="dk-ico">🌙</span><span id="dk-lbl">Dark</span></div>
-            <button class="btn primary" onclick="openQA()">＋ Add expense</button>
+            <button class="btn primary" onclick="openQA()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Add expense</button>
           </div>
         </div>
         <div class="trend-banner" id="trend-banner"></div>
@@ -637,10 +651,10 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
           <button class="ptab" onclick="setPeriod('year',this)">This year</button>
         </div>
         <div class="stats-row">
-          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Total Spent</div><div class="stat-card-icon" style="background:var(--red-bg)">💸</div></div><div class="stat-card-val" id="s-total">₱0.00</div><div class="stat-chip chip-fl" id="s-trend">—</div></div>
-          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Needs</div><div class="stat-card-icon" style="background:var(--blue-bg)">🏠</div></div><div class="stat-card-val" id="s-needs">₱0.00</div><div class="stat-chip chip-fl" id="s-needs-p">0%</div></div>
-          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Wants</div><div class="stat-card-icon" style="background:var(--purple-bg)">🛍️</div></div><div class="stat-card-val" id="s-wants">₱0.00</div><div class="stat-chip chip-fl" id="s-wants-p">0%</div></div>
-          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Transactions</div><div class="stat-card-icon" style="background:var(--teal-bg)">🧾</div></div><div class="stat-card-val" id="s-count">0</div><div class="stat-chip chip-fl" id="s-period">Today</div></div>
+          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Total Spent</div><div class="stat-card-icon" style="background:var(--red-bg)"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="stat-card-val" id="s-total">₱0.00</div><div class="stat-chip chip-fl" id="s-trend">—</div></div>
+          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Needs</div><div class="stat-card-icon" style="background:var(--blue-bg)"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div></div><div class="stat-card-val" id="s-needs">₱0.00</div><div class="stat-chip chip-fl" id="s-needs-p">0%</div></div>
+          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Wants</div><div class="stat-card-icon" style="background:var(--purple-bg)"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div></div><div class="stat-card-val" id="s-wants">₱0.00</div><div class="stat-chip chip-fl" id="s-wants-p">0%</div></div>
+          <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Transactions</div><div class="stat-card-icon" style="background:var(--teal-bg)"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div></div><div class="stat-card-val" id="s-count">0</div><div class="stat-chip chip-fl" id="s-period">Today</div></div>
         </div>
         <div class="insight-row" id="insight-row"></div>
         <div class="g31">
@@ -659,7 +673,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div id="page-wallets" class="page" style="display:none">
         <div class="page-hd">
           <div><div class="page-title">Wallets</div><div class="page-sub">Track balances across all your accounts</div></div>
-          <div class="page-actions"><button class="btn primary" onclick="addWallet()">＋ Add wallet</button></div>
+          <div class="page-actions"><button class="btn primary" onclick="addWallet()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add wallet</button></div>
         </div>
         <div class="wallet-grid" id="wallet-grid"></div>
         <div class="card">
@@ -670,7 +684,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
             <div class="fg"><label class="fl">Amount (₱)</label><input class="fi" type="number" id="tf-amt" placeholder="0.00" min="0"></div>
             <div class="fg"><label class="fl">Note</label><input class="fi" type="text" id="tf-note" placeholder="Optional"></div>
           </div>
-          <div class="form-actions"><button class="btn primary" onclick="doTransfer()">↔ Transfer</button></div>
+          <div class="form-actions"><button class="btn primary" onclick="doTransfer()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Transfer</button></div>
         </div>
       </div>
 
@@ -678,7 +692,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div id="page-add" class="page" style="display:none">
         <div class="page-hd">
           <div><div class="page-title">Add Expense</div><div class="page-sub">Log what you spent · <span style="font-size:10px;background:var(--surface-active);padding:2px 6px;border-radius:4px;font-weight:600">Alt+A</span></div></div>
-          <div class="page-actions"><button class="btn" onclick="openScanner()">📸 Scan receipt</button></div>
+          <div class="page-actions"><button class="btn" onclick="openScanner()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Scan receipt</button></div>
         </div>
         <div class="g2" style="align-items:start">
           <div class="card">
@@ -688,7 +702,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
               <div class="fg"><label class="fl">Wallet</label><select class="fi" id="f-wallet"><option value="">No wallet</option></select></div>
               <div class="fg"><label class="fl">Category</label>
                 <select class="fi" id="f-cat">
-                  <option value="needs">🏠 Needs</option><option value="wants">🛍️ Wants</option>
+                  <option value="needs"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Needs</option><option value="wants"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Wants</option>
                   <option value="food">🍜 Food & Drinks</option><option value="transport">🚌 Transport</option>
                   <option value="health">💊 Health</option><option value="other">📦 Other</option>
                 </select>
@@ -709,7 +723,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div id="page-history" class="page" style="display:none">
         <div class="page-hd">
           <div><div class="page-title">History</div><div class="page-sub">All your logged expenses</div></div>
-          <div class="page-actions"><button class="btn" onclick="exportCSV()">↓ Export CSV</button></div>
+          <div class="page-actions"><button class="btn" onclick="exportCSV()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button></div>
         </div>
         <div class="search-bar"><span class="search-bar-icon">🔍</span><input type="text" id="h-q" placeholder="Search expenses…" oninput="renderHistory()"></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:flex-end">
@@ -773,7 +787,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div id="page-goals" class="page" style="display:none">
         <div class="page-hd">
           <div><div class="page-title">Savings Goals</div><div class="page-sub">Build towards what matters most</div></div>
-          <div class="page-actions"><button class="btn primary" onclick="openGoalForm()">＋ New goal</button></div>
+          <div class="page-actions"><button class="btn primary" onclick="openGoalForm()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New goal</button></div>
         </div>
         <div id="goal-form-wrap" style="display:none" class="card mb">
           <div class="card-label">New goal</div>
@@ -798,7 +812,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
           <div>
             <div class="profile-name" id="p-name-display">—</div>
             <div class="profile-email" id="p-email-display">—</div>
-            <div class="verified">✓ Verified account</div>
+            <div class="verified">Verified account</div>
           </div>
         </div>
         <div class="g2">
@@ -863,14 +877,14 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
   <div class="mobile-nav-inner">
     <button class="mob-nav-btn on" id="mob-dashboard" onclick="nav('dashboard')"><span class="mob-nav-ico">⊞</span>Home</button>
     <button class="mob-nav-btn" id="mob-history"  onclick="nav('history')"><span class="mob-nav-ico">≡</span>History</button>
-    <button class="mob-nav-btn" id="mob-add"      onclick="openQA()"><span class="mob-nav-ico" style="font-size:24px">＋</span></button>
+    <button class="mob-nav-btn" id="mob-add"      onclick="openQA()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
     <button class="mob-nav-btn" id="mob-budget"   onclick="nav('budget')"><span class="mob-nav-ico">◎</span>Budget</button>
     <button class="mob-nav-btn" id="mob-profile"  onclick="nav('profile')"><span class="mob-nav-ico">○</span>Me</button>
   </div>
 </div>
 
 <!-- FAB -->
-<button class="fab" onclick="openQA()">＋</button>
+<button class="fab" onclick="openQA()" title="Add expense"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
 
 <!-- Quick-add modal -->
 <div class="modal-backdrop" id="qa-backdrop" onclick="if(event.target===this)closeQA()">
@@ -884,7 +898,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
         <div class="fg"><label class="fl">Amount (₱)</label><input class="fi" type="number" id="qa-amount" placeholder="0.00" min="0" step="0.01"></div>
         <div class="fg"><label class="fl">Category</label>
           <select class="fi" id="qa-cat">
-            <option value="needs">🏠 Needs</option><option value="wants">🛍️ Wants</option>
+            <option value="needs"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Needs</option><option value="wants"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Wants</option>
             <option value="food">🍜 Food</option><option value="transport">🚌 Transport</option>
             <option value="health">💊 Health</option><option value="other">📦 Other</option>
           </select>
@@ -907,7 +921,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
       <div id="scan-drop-state">
         <div class="scan-drop" id="scan-drop">
           <input type="file" accept="image/*" id="scan-file" onchange="handleScanFile(event)">
-          <span class="scan-icon">📷</span>
+          <span class="scan-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
           <div class="scan-drop-title">Drop receipt image here</div>
           <div class="scan-drop-sub">JPG, PNG, HEIC · max 10 MB</div>
         </div>
@@ -934,7 +948,7 @@ textarea.fi{resize:vertical;min-height:70px;line-height:1.5}
           <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="sc-date"></div>
           <div class="fg"><label class="fl">Category</label>
             <select class="fi" id="sc-cat">
-              <option value="needs">🏠 Needs</option><option value="wants">🛍️ Wants</option>
+              <option value="needs"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Needs</option><option value="wants"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Wants</option>
               <option value="food">🍜 Food</option><option value="transport">🚌 Transport</option>
               <option value="health">💊 Health</option><option value="other">📦 Other</option>
             </select>
@@ -994,12 +1008,12 @@ const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 const ci  = k  => CATS[k] || CATS.other;
 
 const CATS = {
-  needs:     { label:'Needs',     icon:'🏠', color:'#1d4ed8', bg:'var(--blue-bg)',   border:'var(--blue-mid)'   },
-  wants:     { label:'Wants',     icon:'🛍️', color:'#7c3aed', bg:'var(--purple-bg)', border:'var(--purple-mid)' },
-  food:      { label:'Food',      icon:'🍜', color:'#b45309', bg:'var(--amber-bg)',  border:'var(--amber-mid)'  },
-  transport: { label:'Transport', icon:'🚌', color:'#0f766e', bg:'var(--teal-bg)',   border:'var(--teal-mid)'   },
-  health:    { label:'Health',    icon:'💊', color:'#dc2626', bg:'var(--red-bg)',    border:'var(--red-mid)'    },
-  other:     { label:'Other',     icon:'📦', color:'#6b7280', bg:'var(--surface-hover)', border:'var(--border)' },
+  needs:     { label:'Needs',     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',     color:'#1d4ed8', bg:'var(--blue-bg)',       border:'var(--blue-mid)'   },
+  wants:     { label:'Wants',     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',     color:'#7c3aed', bg:'var(--purple-bg)',     border:'var(--purple-mid)' },
+  food:      { label:'Food',      icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>',      color:'#b45309', bg:'var(--amber-bg)',      border:'var(--amber-mid)'  },
+  transport: { label:'Transport', icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>', color:'#0f766e', bg:'var(--teal-bg)',       border:'var(--teal-mid)'   },
+  health:    { label:'Health',    icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',    color:'#dc2626', bg:'var(--red-bg)',        border:'var(--red-mid)'    },
+  other:     { label:'Other',     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',     color:'#6b7280', bg:'var(--surface-hover)', border:'var(--border)'     },
 };
 
 const QUICK = [
@@ -1167,7 +1181,7 @@ async function loadDataInBackground() {
     // Refresh the current view with real data
     try { renderDash(); } catch(e) {}
     try { sidebarBudget(); } catch(e) {}
-    toast('Your data is ready! ✓');
+    toast('Your data is ready!', 'ok');
   } catch(err) {
     console.warn('Background load failed:', err.message);
     if (err.status === 401 || /token|denied|unauth/i.test(err.message || '')) {
@@ -1296,9 +1310,14 @@ async function doLogin() {
   try {
     const d=await apiFetch('/api/auth/login',{method:'POST',body:JSON.stringify({email:em,password:pw})});
     if(!d.token) throw new Error('No token returned.');
-    token=d.token; email=em; localStorage.setItem('ti_tok',token); localStorage.setItem('ti_em',em);
-    if(!localStorage.getItem('ti_since')) localStorage.setItem('ti_since',new Date().toISOString());
-    await boot();
+    token=d.token; email=em;
+    localStorage.setItem('ti_tok', token);
+    localStorage.setItem('ti_em', email);
+    if(!localStorage.getItem('ti_since')) localStorage.setItem('ti_since', new Date().toISOString());
+    // Show app immediately, load data in background
+    showApp();
+    if (!localStorage.getItem('ti_onboarded')) { showOB(); return; }
+    loadDataInBackground();
   } catch(err){ showAuthMsg(err.message||'Login failed. Check your credentials.','err'); btn.disabled=false; btn.textContent='Sign in to TrackIT'; }
 }
 async function doReg() {
@@ -1399,14 +1418,14 @@ function renderDash() {
   const topCat=Object.keys(CATS).map(k=>({k,t:filtered.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)})).sort((a,b)=>b.t-a.t)[0];
   const avg=filtered.length?total/filtered.length:0;
   ig.innerHTML=`
-    <div class="insight-card"><div class="insight-icon">💰</div><div class="insight-title">Largest expense</div><div class="insight-val">${biggest?esc(biggest.name):'—'}</div><div class="insight-sub">${biggest?fmt(biggest.amount):'No data yet'}</div></div>
-    <div class="insight-card"><div class="insight-icon">${topCat&&topCat.t>0?ci(topCat.k).icon:'📊'}</div><div class="insight-title">Top category</div><div class="insight-val">${topCat&&topCat.t>0?ci(topCat.k).label:'—'}</div><div class="insight-sub">${topCat&&topCat.t>0?fmt(topCat.t):'No data yet'}</div></div>
-    <div class="insight-card"><div class="insight-icon">📈</div><div class="insight-title">Avg per transaction</div><div class="insight-val">${avg>0?fmt(avg):'—'}</div><div class="insight-sub">${filtered.length} transaction${filtered.length!==1?'s':''}</div></div>`;
+    <div class="insight-card"><div class="insight-icon"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="insight-title">Largest expense</div><div class="insight-val">${biggest?esc(biggest.name):'—'}</div><div class="insight-sub">${biggest?fmt(biggest.amount):'No data yet'}</div></div>
+    <div class="insight-card"><div class="insight-icon">${topCat&&topCat.t>0?ci(topCat.k).icon:'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>'}</div><div class="insight-title">Top category</div><div class="insight-val">${topCat&&topCat.t>0?ci(topCat.k).label:'—'}</div><div class="insight-sub">${topCat&&topCat.t>0?fmt(topCat.t):'No data yet'}</div></div>
+    <div class="insight-card"><div class="insight-icon"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div><div class="insight-title">Avg per transaction</div><div class="insight-val">${avg>0?fmt(avg):'—'}</div><div class="insight-sub">${filtered.length} transaction${filtered.length!==1?'s':''}</div></div>`;
 
   // Recent transactions (grouped by date)
   const el=$('recent-txns');
   const recent=[...filtered].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,15);
-  if(!recent.length){ el.innerHTML=`<div class="empty"><span class="empty-icon">💸</span><div class="empty-title">No expenses yet</div><div class="empty-desc">Your future self will thank you for every peso tracked.</div><button class="empty-cta" onclick="openQA()">Log first expense</button></div>`; }
+  if(!recent.length){ el.innerHTML=`<div class="empty"><span class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><div class="empty-title">No expenses yet</div><div class="empty-desc">Your future self will thank you for every peso tracked.</div><button class="empty-cta" onclick="openQA()">Log first expense</button></div>`; }
   else {
     const groups=groupByDate(recent);
     el.innerHTML=Object.keys(groups).sort((a,b)=>new Date(b)-new Date(a)).map(d=>{
@@ -1440,7 +1459,7 @@ async function addExp() {
     const saved=await apiFetch('/api/expenses',{method:'POST',body:JSON.stringify({name,amount,category:cat,date,note})});
     expenses.unshift({id:saved._id,name:saved.name||name,amount:Number(saved.amount)||amount,cat:saved.category||cat,date:(saved.date||date).slice(0,10),note:saved.note||note,wallet,receipt:''});
     if(wallet){ const w=wallets.find(w=>w.id===wallet); if(w){w.balance-=amount; saveWallets();} }
-    clearForm(); toast('Expense saved! ✓'); sidebarBudget();
+    clearForm(); toast('Expense saved!'); sidebarBudget();
   } catch(err){ toast('Save failed: '+err.message); }
   finally{ btn.disabled=false; btn.textContent='Save expense'; }
 }
@@ -1468,7 +1487,7 @@ async function qaSave(){
   try {
     const saved=await apiFetch('/api/expenses',{method:'POST',body:JSON.stringify({name,amount,category:cat,date:todayStr()})});
     expenses.unshift({id:saved._id,name:saved.name||name,amount:Number(saved.amount)||amount,cat:saved.category||cat,date:todayStr(),note:'',wallet:'',receipt:''});
-    $('qa-name').value=''; $('qa-amount').value=''; closeQA(); toast('Saved! ✓'); sidebarBudget();
+    $('qa-name').value=''; $('qa-amount').value=''; closeQA(); toast('Saved!'); sidebarBudget();
   } catch(err){ toast('Failed: '+err.message); }
 }
 
@@ -1558,7 +1577,7 @@ async function saveScanExp() {
   try {
     const saved=await apiFetch('/api/expenses',{method:'POST',body:JSON.stringify({name,amount,category:cat,date,note})});
     expenses.unshift({id:saved._id,name:saved.name||name,amount:Number(saved.amount)||amount,cat:saved.category||cat,date:(saved.date||date).slice(0,10),note:saved.note||note,wallet:'',receipt:scanImgB64?'data:image/jpeg;base64,'+scanImgB64.slice(0,20)+'…':''});
-    closeScanner(); toast('Receipt expense saved! ✓'); sidebarBudget();
+    closeScanner(); toast('Receipt expense saved!'); sidebarBudget();
   } catch(err){ toast('Save failed: '+err.message); }
 }
 async function saveManualScanExp() {
@@ -1567,7 +1586,7 @@ async function saveManualScanExp() {
   try {
     const saved=await apiFetch('/api/expenses',{method:'POST',body:JSON.stringify({name,amount,category:'other',date,note})});
     expenses.unshift({id:saved._id,name:saved.name||name,amount:Number(saved.amount)||amount,cat:'other',date:(saved.date||date).slice(0,10),note:saved.note||note,wallet:'',receipt:''});
-    closeScanner(); toast('Expense saved! ✓'); sidebarBudget();
+    closeScanner(); toast('Expense saved!'); sidebarBudget();
   } catch(err){ toast('Save failed: '+err.message); }
 }
 
@@ -1647,7 +1666,7 @@ function renderAnalytics() {
 async function saveBudget() {
   const val=parseFloat($('b-inp').value); if(isNaN(val)||val<0){toast('Enter a valid amount.');return;}
   const btn=$('b-save'); btn.disabled=true; btn.innerHTML='<span class="spin dark"></span>';
-  try { await apiFetch('/api/budget',{method:'POST',body:JSON.stringify({monthlyLimit:val})}); budget=val; renderBudget(); sidebarBudget(); toast('Budget saved! ✓'); }
+  try { await apiFetch('/api/budget',{method:'POST',body:JSON.stringify({monthlyLimit:val})}); budget=val; renderBudget(); sidebarBudget(); toast('Budget saved!'); }
   catch(err){ toast('Failed: '+err.message); }
   finally{ btn.disabled=false; btn.textContent='Save'; }
 }
@@ -1754,7 +1773,15 @@ function exportCSV(){ const cf=$('h-cat').value, pf=$('h-period').value; let lis
 // TOAST
 // ══════════════════════════════════════════════
 let toastT;
-function toast(msg,icon='') { const el=$('toast'); el.innerHTML=(icon?`<span>${icon}</span> `:'')+ msg; el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('on'),3200); }
+function toast(msg, type='') {
+  const el=$('toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.background = type==='ok' ? 'var(--green)' : type==='err' ? 'var(--red)' : 'var(--text)';
+  el.classList.add('on');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('on'), 3200);
+}
 </script>
 </body>
 </html>
